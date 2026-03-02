@@ -1,59 +1,132 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 飲食店向け勤怠管理システム
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 1. 目的
 
-## About Laravel
+本システムは、小規模飲食店における勤怠管理業務の効率化を目的として開発する。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+紙のタイムカードやExcelによる手動集計では、以下の課題が発生している。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- 集計ミスの発生
+- 月末の業務負荷増大
+- 打刻修正履歴の不透明さ
+- シフトと実績の差異把握が困難
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+これらの課題を解決するため、Webアプリケーションとして勤怠管理システムを構築する。
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 2. 想定利用環境（背景設定）
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 想定クライアント
 
-## Laravel Sponsors
+- 地方の個人経営飲食店
+- 従業員数：約10名（アルバイト中心）
+- 店長1名が勤怠管理を担当
+- 現在は紙タイムカードで管理
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 現状業務フロー
 
-### Premium Partners
+1. 出勤時に紙へ打刻
+2. 退勤時に手書き記録
+3. 月末に店長が手動集計
+4. 給与計算へ反映
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 現状の問題点
 
-## Contributing
+- 手計算による集計ミス
+- 修正時の証跡が残らない
+- 月末に業務が集中する
+- 過去データの検索性が低い
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 3. 要件分析
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 業務上必要な機能要素
 
-## Security Vulnerabilities
+- 従業員ごとの出退勤記録管理
+- 勤務時間の自動計算
+- 休憩時間の管理
+- 打刻修正申請および承認フロー
+- 月次集計機能
+- データ出力機能（CSV）
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 利用者区分
 
-## License
+#### 従業員（アルバイト）
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- 出勤・退勤打刻
+- 自身の勤怠確認
+- 打刻修正申請
+
+#### 管理者（店長）
+
+- 全従業員の勤怠一覧確認
+- 修正申請の承認／却下
+- 月次集計確認
+- CSV出力
+
+---
+
+## 4. 要件定義
+
+### 4.1 機能要件
+
+1. 認証機能  
+   - メールアドレス・パスワードによるログイン  
+   - ロール（従業員／管理者）によるアクセス制御  
+
+2. 打刻機能  
+   - 出勤打刻  
+   - 退勤打刻  
+   - 休憩開始／終了記録  
+
+3. 勤務時間計算機能  
+   - 休憩時間を差し引いた実働時間の自動算出  
+   - 日別・月別の合計時間表示  
+
+4. 修正申請機能  
+   - 従業員が打刻修正を申請可能  
+   - 管理者が承認／却下可能  
+   - 承認履歴の保存  
+
+5. 月次集計機能  
+   - 指定月の勤務時間一覧表示  
+   - 従業員別集計表示  
+
+6. CSV出力機能  
+   - 月次勤怠データをCSV形式で出力  
+
+---
+
+### 4.2 非機能要件
+
+- パスワードはハッシュ化して保存する  
+- 同時アクセス20名までを想定する  
+- 月末集計時でも処理遅延が発生しない設計とする  
+- データの永続化およびバックアップを前提とする  
+- スマートフォンからの利用を考慮したUI設計とする  
+
+5. ■ PHP 8.5
+
+最新の安定版であり、パフォーマンス改善や型安全性の向上など、継続的な言語進化の恩恵を受けられるため採用しました。 Laravel 12との互換性も確保されており、今後の長期運用を見据えたバージョン選定としています。
+
+■ Laravel 12
+
+現行の公式サポート対象バージョンであり、軽量かつシンプルな構成を採用している点を評価しました。 最新のベストプラクティスに基づいた開発を行うことで、保守性・拡張性の高いアプリケーション構築を目指しています。
+
+■ MySQL 8.4
+
+最新の長期サポート（LTS）版であり、トランザクション管理やインデックス機能などが成熟しているRDBMSです。 実務利用実績が豊富であり、安定性と信頼性を重視して採用しました。
+
+■ Docker（Laravel Sail）
+
+開発環境の再現性を確保し、チーム開発を想定したコンテナベースの構成を採用しました。 ローカル環境差異を排除し、本番環境に近い構成で開発を行うことを目的としています。
+
+■ PHPUnit
+
+Laravel標準のテストフレームワークを使用し、主要機能の動作保証と回帰防止を目的としています。 継続的なリファクタリングを可能にするため、テスト駆動の開発を意識しています。
+
+■ GitHub Actions
+
+プッシュ時に自動でテストを実行するCI環境を構築しています。 コードの品質担保と、継続的インテグレーション（CI）を実現するために導入しています。
