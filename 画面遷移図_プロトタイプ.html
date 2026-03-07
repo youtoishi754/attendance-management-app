@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>勤怠管理システム - インタラクティブプロトタイプ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg:          #f0f2f5;
+    --surface:     #ffffff;
+    --surface2:    #f7f8fa;
+    --border:      #d9dde3;
+    --border-dark: #b0b8c4;
+
+    --primary:     #1a5fb4;   /* 主要ボタン・リンク */
+    --primary-lt:  #e8f0fb;
+    --primary-mid: #4a7fd4;
+
+    --admin:       #1a5fb4;
+    --admin-lt:    #e8f0fb;
+    --employee:    #217a4b;   /* 濃いめの緑 */
+    --employee-lt: #e6f4ec;
+    --shared:      #7a5200;   /* アンバー系 */
+    --shared-lt:   #fef3e2;
+    --purple:      #5c35b0;
+    --purple-lt:   #f0ebff;
+
+    --danger:      #c0392b;
+    --danger-lt:   #fdecea;
+    --warning:     #b45309;
+    --warning-lt:  #fff8ed;
+
+    --text:        #1a1f2e;
+    --text-sub:    #4b5468;
+    --text-muted:  #8a94a6;
+    --text-white:  #ffffff;
+
+    --header-bg:   #1a5fb4;
+    --sidebar-bg:  #1e3a5f;
+
+    --font: 'Noto Sans JP', sans-serif;
+    --mono: 'Noto Sans Mono', monospace;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow:    0 2px 8px rgba(0,0,0,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    min-height: 100vh;
+  }
+
+  /* ─── Screen switcher nav ─── */
+  .switcher {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: #1e3a5f;
+    border-bottom: 1px solid #2a4f7a;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  .switcher-label {
+    font-size: 10px;
+    color: #7a9bbf;
+    font-family: var(--mono);
+    margin-right: 10px;
+    white-space: nowrap;
+  }
+  .sw-btn {
+    font-family: var(--font);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid #2d5480;
+    background: transparent;
+    color: #9bbad4;
+    cursor: pointer;
+    transition: all .15s;
+    white-space: nowrap;
+  }
+  .sw-btn:hover { background: #2a4f7a; color: #d0e4f5; }
+  .sw-btn.on-shared   { background: #fef3e2; color: var(--shared);   border-color: #e4a430; }
+  .sw-btn.on-admin    { background: #dbeafe; color: #1a4e9a; border-color: #6da0e8; }
+  .sw-btn.on-employee { background: #dcfce7; color: #1a6638; border-color: #5ab87a; }
+
+  /* ─── Screens wrapper ─── */
+  .screens { padding-top: 52px; }
+  .screen { display: none; min-height: calc(100vh - 52px); }
+  .screen.active { display: block; }
+
+  /* ─── App chrome: header + content ─── */
+  .app-header {
+    background: var(--header-bg);
+    padding: 0 20px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  .app-logo {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .app-logo span { font-size: 11px; font-weight: 400; color: #a8c8f0; margin-left: 4px; }
+  .app-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #c8dff5;
+    font-size: 12px;
+  }
+  .avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #3a72b8;
+    border: 1px solid #5a9ae0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+  }
+
+  /* ─── Role banner ─── */
+  .role-banner {
+    padding: 6px 20px;
+    font-size: 11px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .role-admin    { background: #dbeafe; color: #1a4e9a; border-bottom: 1px solid #bfdbfe; }
+  .role-employee { background: #dcfce7; color: #1a6638; border-bottom: 1px solid #bbf7d0; }
+  .role-shared   { background: #fef3e2; color: #7a5200; border-bottom: 1px solid #fde68a; }
+
+  /* ─── Sub-nav (breadcrumb + tabs) ─── */
+  .sub-nav {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    box-shadow: var(--shadow-sm);
+  }
+  .sub-tab {
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--text-sub);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .sub-tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 700; }
+  .sub-tab:hover  { background: var(--surface2); }
+
+  /* ─── Page layout ─── */
+  .page-wrap { padding: 20px; max-width: 900px; margin: 0 auto; }
+  .page-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ─── Card ─── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .card-head {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-sub);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-body { padding: 16px; }
+
+  /* ─── Form ─── */
+  .form-group { margin-bottom: 14px; }
+  .form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin-bottom: 4px;
+  }
+  .form-label .required {
+    color: var(--danger);
+    font-size: 11px;
+    margin-left: 3px;
+  }
+  .form-control {
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--border-dark);
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-family: var(--font);
+    color: var(--text);
+    outline: none;
+    
+  }
+  .form-control.placeholder { color: var(--text-muted); }
+  textarea.form-control { height: 72px; resize: none; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* ─── Buttons ─── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 5px;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: var(--font);
+    cursor: pointer;
+    border: none;
+    transition: opacity .15s, background .15s;
+  }
+  .btn:hover { opacity: .88; }
+  .btn-primary  { background: var(--primary);  color: #fff; }
+  .btn-success  { background: #217a4b;          color: #fff; }
+  .btn-danger   { background: var(--danger);    color: #fff; }
+  .btn-warning  { background: #d97706;          color: #fff; }
+  .btn-outline  {
+    background: #fff;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+  }
+  .btn-ghost {
+    background: var(--surface2);
+    color: var(--text-sub);
+    border: 1px solid var(--border);
+  }
+  .btn-sm   { padding: 5px 12px; font-size: 12px; }
+  .btn-full { width: 100%; margin-bottom: 8px; }
+  .btn-row  { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* ─── Table ─── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table thead th {
+    background: #f0f4fa;
+    border-bottom: 2px solid #c8d6ea;
+    border-top: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sub);
+    white-space: nowrap;
+  }
+  .data-table tbody td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table tbody tr:hover td { background: #f5f8ff; }
+  .mono { font-family: var(--mono); }
+
+  /* ─── Status badges ─── */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .badge-working  { background: var(--employee-lt); color: var(--employee); }
+  .badge-break    { background: var(--warning-lt);  color: var(--warning); }
+  .badge-off      { background: #f0f2f5; color: var(--text-muted); }
+  .badge-pending  { background: var(--purple-lt);   color: var(--purple); }
+  .badge-approved { background: var(--employee-lt); color: var(--employee); }
+  .badge-rejected { background: var(--danger-lt);   color: var(--danger); }
+  .badge-admin-role { background: var(--admin-lt);  color: var(--admin); }
+  .badge-emp-role   { background: var(--employee-lt); color: var(--employee); }
+
+  /* ─── Stats grid ─── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .stat-box {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 12px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .stat-val { font-size: 24px; font-weight: 700; font-family: var(--mono); }
+  .stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ─── Filter bar ─── */
+  .filter-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 0; flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .filter-bar label { font-size: 12px; color: var(--text-sub); font-weight: 700; }
+  .filter-select {
+    font-size: 12px; font-family: var(--font);
+    border: 1px solid var(--border-dark);
+    border-radius: 4px; padding: 4px 8px;
+    background: #fff; color: var(--text);
+    
+  }
+  .filter-tab {
+    font-size: 12px; padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 3px; background: #fff;
+    color: var(--text-sub); cursor: pointer;
+  }
+  .filter-tab.active {
+    background: var(--primary-lt);
+    color: var(--primary);
+    border-color: var(--primary-mid);
+    font-weight: 700;
+  }
+
+  /* ─── Punch buttons ─── */
+  .punch-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-bottom: 16px;
+  }
+  .punch-btn {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .punch-btn.clock-in  { border-color: #1a7a4b; }
+  .punch-btn.clock-out { border-color: #c0392b; }
+  .punch-btn.break-s   { border-color: #d97706; }
+  .punch-btn.break-e   { border-color: #5c35b0; }
+  .punch-btn.disabled  { opacity: .38;  background: var(--surface2); }
+  .punch-icon { font-size: 24px; margin-bottom: 5px; }
+  .punch-label { font-size: 13px; font-weight: 700; color: var(--text); }
+  .punch-sublabel { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+  /* ─── Clock ─── */
+  .clock-box {
+    background: #f0f4fa;
+    border: 1px solid #c8d6ea;
+    border-radius: 6px;
+    text-align: center;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .clock-time {
+    font-family: var(--mono);
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: .04em;
+  }
+  .clock-date { font-size: 13px; color: var(--text-sub); margin-top: 4px; }
+
+  /* ─── Info list ─── */
+  .info-list { }
+  .info-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-key { color: var(--text-sub); }
+  .info-val { color: var(--text); font-family: var(--mono); font-size: 12px; }
+
+  /* ─── Annotation ─── */
+  .annotation {
+    font-size: 11px; color: #5a6e8c;
+    background: #eef2fa;
+    border-left: 3px solid #6da0e8;
+    border-radius: 0 4px 4px 0;
+    padding: 6px 10px;
+    margin-bottom: 14px;
+    font-family: var(--mono);
+  }
+
+  /* ─── Request card ─── */
+  .req-card {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 10px;
+    background: #fff;
+  }
+  .req-card-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 10px;
+  }
+  .req-name { font-size: 14px; font-weight: 700; }
+  .req-detail { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; }
+
+  /* ─── Profile avatar ─── */
+  .profile-avatar-box {
+    text-align: center;
+    padding: 20px 0 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .profile-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--primary-lt);
+    border: 2px solid #b3cef8;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 10px;
+  }
+  .profile-name { font-size: 16px; font-weight: 700; }
+  .profile-mail { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+
+  /* scroll pad for content under app chrome */
+  .page-pad { padding-bottom: 40px; }
+</style>
+</head>
+<body>
+
+<!-- ─── SCREEN SWITCHER ─── -->
+<nav class="switcher">
+  <span class="switcher-label">SCREEN /</span>
+  <button class="sw-btn on-shared"   onclick="show('login')">🔐 ログイン</button>
+  <button class="sw-btn"             onclick="show('admin-dash')">🏠 管理者DB</button>
+  <button class="sw-btn"             onclick="show('admin-list')">📋 勤怠一覧</button>
+  <button class="sw-btn"             onclick="show('admin-approval')">✏️ 修正承認</button>
+  <button class="sw-btn"             onclick="show('admin-monthly')">📊 月次集計</button>
+  <button class="sw-btn"             onclick="show('admin-csv')">💾 CSV出力</button>
+  <button class="sw-btn"             onclick="show('emp-dash')">🏠 従業員DB</button>
+  <button class="sw-btn"             onclick="show('emp-punch')">⏱ 打刻</button>
+  <button class="sw-btn"             onclick="show('emp-history')">📅 勤怠確認</button>
+  <button class="sw-btn"             onclick="show('emp-request')">📝 修正申請</button>
+  <button class="sw-btn"             onclick="show('profile')">⚙️ プロフィール</button>
+</nav>
+
+<div class="screens">
+
+<!-- ════════════════════════════════
+     LOGIN
+════════════════════════════════ -->
+<div id="screen-login" class="screen active">
+  <div style="min-height:calc(100vh - 52px);background:#e8edf5;display:flex;align-items:center;justify-content:center;padding:20px">
+    <div style="width:100%;max-width:380px">
+
+      <div style="text-align:center;margin-bottom:24px">
+        <div style="font-size:22px;font-weight:700;color:var(--primary)">勤怠管理システム</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px">ATTENDANCE MANAGEMENT</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">ログイン</div>
+        <div class="card-body">
+          <div class="annotation">📐 メール＋パスワードでロール自動判定</div>
+
+          <div class="form-group">
+            <label class="form-label">メールアドレス <span class="required">*</span></label>
+            <div class="form-control placeholder">example&#64;company.co.jp</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">パスワード <span class="required">*</span></label>
+            <div class="form-control placeholder">••••••••</div>
+          </div>
+
+          
+          <button class="btn btn-primary btn-full" style="margin-top:4px" onclick="show('admin-dash')">ログイン</button>
+          <div style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:6px">入力内容をもとにロール判定し、各ダッシュボードへ自動遷移します</div>
+          <div style="margin-top:14px;background:#f0f4fa;border:1px solid #c8d6ea;border-radius:6px;padding:10px 12px;font-size:11px;color:#4b5a72;line-height:1.8">
+            <div style="font-weight:700;margin-bottom:4px;color:#1a3a5c">📌 プロトタイプ操作ガイド</div>
+            <div>・このボタンは <strong>デフォルトで管理者ダッシュボード</strong> へ遷移します</div>
+            <div>・画面上部の <strong>SCREEN /</strong> ナビから全ページを直接切り替えできます</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     ADMIN DASHBOARD
+════════════════════════════════ -->
+<div id="screen-admin-dash" class="screen">
+  <div class="app-header">
+    <div class="app-logo">🏢 勤怠管理システム <span>v1.0</span></div>
+    <div class="app-user"><div class="avatar">👤</div>田中 太郎</div>
+  </div>
+  <div class="role-banner role-admin">🔵 管理者（店長）モードでログイン中</div>
+  <div class="sub-nav">
+    <div class="sub-tab active">ダッシュボード</div>
+    <div class="sub-tab" onclick="show('admin-list')">勤怠一覧</div>
+    <div class="sub-tab" onclick="show('admin-approval')">修正申請</div>
+    <div class="sub-tab" onclick="show('admin-monthly')">月次集計</div>
+  </div>
+
+  <div class="page-wrap page-pad">
+    <div class="page-title">🏠 管理者ダッシュボード</div>
+    <div class="annotation">📐 全従業員の本日ステータスをひと目で確認。各機能への導線。</div>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-val" style="color:var(--employee)">8</div>
+        <div class="stat-lbl">出勤中</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" style="color:var(--warning)">2</div>
+        <div class="stat-lbl">休憩中</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" style="color:var(--text-muted)">4</div>
+        <div class="stat-lbl">未出勤</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        本日の従業員ステータス
+        <button class="btn btn-outline btn-sm" onclick="show('admin-list')">一覧を見る</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead><tr><th>氏名</th><th>ステータス</th><th>出勤時刻</th><th>退勤時刻</th></tr></thead>
+          <tbody>
+            <tr><td>田中 太郎</td><td><span class="badge badge-working">▶ 勤務中</span></td><td class="mono">09:02</td><td class="mono">—</td></tr>
+            <tr><td>佐藤 花子</td><td><span class="badge badge-break">⏸ 休憩中</span></td><td class="mono">08:55</td><td class="mono">—</td></tr>
+            <tr><td>鈴木 一郎</td><td><span class="badge badge-off">未出勤</span></td><td class="mono">—</td><td class="mono">—</td></tr>
+            <tr><td>高橋 美咲</td><td><span class="badge badge-working">▶ 勤務中</span></td><td class="mono">09:30</td><td class="mono">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">未処理の修正申請</div>
+      <div class="card-body">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:20px;font-weight:700;color:var(--danger)">3件</span>
+          <button class="btn btn-primary btn-sm" onclick="show('admin-approval')">申請一覧を確認する</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     ADMIN ATTENDANCE LIST
+════════════════════════════════ -->
+<div id="screen-admin-list" class="screen">
+  <div class="app-header">
+    <div class="app-logo">🏢 勤怠管理システム</div>
+    <div class="app-user"><div class="avatar">👤</div>田中 太郎</div>
+  </div>
+  <div class="role-banner role-admin">🔵 管理者（店長）モードでログイン中</div>
+  <div class="sub-nav">
+    <div class="sub-tab" onclick="show('admin-dash')">ダッシュボード</div>
+    <div class="sub-tab active">勤怠一覧</div>
+    <div class="sub-tab" onclick="show('admin-approval')">修正申請</div>
+    <div class="sub-tab" onclick="show('admin-monthly')">月次集計</div>
+  </div>
+
+  <div class="page-wrap page-pad">
+    <div class="page-title">📋 全従業員 勤怠一覧</div>
+    <div class="annotation">📐 従業員別・日付別の出退勤一覧。月・週フィルター付き。</div>
+
+    <div class="card">
+      <div class="card-head">絞り込み条件</div>
+      <div class="card-body">
+        <div class="filter-bar">
+          <label>対象月</label>
+          <div class="filter-select">2025年 6月</div>
+          <label style="margin-left:12px">表示単位</label>
+          <span class="filter-tab active">月</span>
+          <span class="filter-tab">週</span>
+        </div>
+        <div class="filter-bar" style="padding-top:0">
+          <label>従業員</label>
+          <span class="filter-tab active">全員</span>
+          <span class="filter-tab">田中 太郎</span>
+          <span class="filter-tab">佐藤 花子</span>
+          <span class="filter-tab">鈴木 一郎</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead>
+            <tr><th>日付</th><th>氏名</th><th>出勤</th><th>休憩開始</th><th>休憩終了</th><th>退勤</th><th>実働</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">06/12（木）</td><td>田中 太郎</td><td class="mono">09:02</td><td class="mono">12:00</td><td class="mono">13:00</td><td class="mono">18:10</td><td class="mono">8h08m</td></tr>
+            <tr><td class="mono">06/12（木）</td><td>佐藤 花子</td><td class="mono">08:55</td><td class="mono">12:10</td><td class="mono">13:05</td><td class="mono">17:30</td><td class="mono">7h30m</td></tr>
+            <tr><td class="mono">06/11（水）</td><td>田中 太郎</td><td class="mono">09:15</td><td class="mono">12:00</td><td class="mono">13:00</td><td class="mono">18:00</td><td class="mono">7h45m</td></tr>
+            <tr><td class="mono">06/11（水）</td><td>鈴木 一郎</td><td class="mono">10:00</td><td class="mono">12:30</td><td class="mono">13:15</td><td class="mono">16:00</td><td class="mono">5h15m</td></tr>
+            <tr><td class="mono">06/10（火）</td><td>田中 太郎</td><td class="mono">09:00</td><td class="mono">12:00</td><td class="mono">13:00</td><td class="mono">18:10</td><td class="mono">8h10m</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     ADMIN APPROVAL
+════════════════════════════════ -->
+<div id="screen-admin-approval" class="screen">
+  <div class="app-header">
+    <div class="app-logo">🏢 勤怠管理システム</div>
+    <div class="app-user"><div class="avatar">👤</div>田中 太郎</div>
+  </div>
+  <div class="role-banner role-admin">🔵 管理者（店長）モードでログイン中</div>
+  <div class="sub-nav">
+    <div class="sub-tab" onclick="show('admin-dash')">ダッシュボード</div>
+    <div class="sub-tab" onclick="show('admin-list')">勤怠一覧</div>
+    <div class="sub-tab active">修正申請</div>
+    <div class="sub-tab" onclick="show('admin-monthly')">月次集計</div>
+  </div>
+
+  <div class="page-wrap page-pad">
+    <div class="page-title">✏️ 修正申請 一覧・承認</div>
+    <div class="annotation">📐 申請ステータスフィルター。申請内容確認後、承認 or 却下操作。</div>
+
+    <div class="filter-bar">
+      <span class="filter-tab active">未承認（3）</span>
+      <span class="filter-tab">承認済</span>
+      <span class="filter-tab">却下</span>
+      <span class="filter-tab">すべて</span>
+    </div>
+
+    <div class="req-card">
+      <div class="req-card-head">
+        <span class="req-name">田中 太郎</span>
+        <span class="badge badge-pending">● 未承認</span>
+      </div>
+      <div class="req-detail">対象日：<strong>2025年6月10日（火）</strong></div>
+      <div class="req-detail">修正内容：退勤時刻　<strong>17:30</strong> → <strong>18:00</strong></div>
+      <div class="req-detail">申請理由：打刻し忘れ</div>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-success btn-sm">✔ 承認する</button>
+        <button class="btn btn-danger btn-sm">✖ 却下する</button>
+        <button class="btn btn-ghost btn-sm">詳細確認</button>
+      </div>
+    </div>
+
+    <div class="req-card">
+      <div class="req-card-head">
+        <span class="req-name">佐藤 花子</span>
+        <span class="badge badge-pending">● 未承認</span>
+      </div>
+      <div class="req-detail">対象日：<strong>2025年6月9日（月）</strong></div>
+      <div class="req-detail">修正内容：出勤時刻　<strong>10:00</strong> → <strong>09:30</strong></div>
+      <div class="req-detail">申請理由：端末エラーにより打刻できなかった</div>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-success btn-sm">✔ 承認する</button>
+        <button class="btn btn-danger btn-sm">✖ 却下する</button>
+        <button class="btn btn-ghost btn-sm">詳細確認</button>
+      </div>
+    </div>
+
+    <div class="req-card">
+      <div class="req-card-head">
+        <span class="req-name">鈴木 一郎</span>
+        <span class="badge badge-pending">● 未承認</span>
+      </div>
+      <div class="req-detail">対象日：<strong>2025年6月8日（日）</strong></div>
+      <div class="req-detail">修正内容：退勤時刻　<strong>16:00</strong> → <strong>17:00</strong></div>
+      <div class="req-detail">申請理由：残業対応で打刻が遅れた</div>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-success btn-sm">✔ 承認する</button>
+        <button class="btn btn-danger btn-sm">✖ 却下する</button>
+        <button class="btn btn-ghost btn-sm">詳細確認</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     ADMIN MONTHLY
+════════════════════════════════ -->
+<div id="screen-admin-monthly" class="screen">
+  <div class="app-header">
+    <div class="app-logo">🏢 勤怠管理システム</div>
+    <div class="app-user"><div class="avatar">👤</div>田中 太郎</div>
+  </div>
+  <div class="role-banner role-admin">🔵 管理者（店長）モードでログイン中</div>
+  <div class="sub-nav">
+    <div class="sub-tab" onclick="show('admin-dash')">ダッシュボード</div>
+    <div class="sub-tab" onclick="show('admin-list')">勤怠一覧</div>
+    <div class="sub-tab" onclick="show('admin-approval')">修正申請</div>
+    <div class="sub-tab active">月次集計</div>
+  </div>
+
+  <div class="page-wrap page-pad">
+    <div class="page-title">📊 月次集計</div>
+    <div class="annotation">📐 指定月の従業員別勤務時間集計。実働時間・休憩時間の合計表示。</div>
+
+    <div class="filter-bar">
+      <label>対象月</label>
+      <div class="filter-select">◀ 2025年 6月 ▶</div>
+      <button class="btn btn-outline btn-sm" onclick="show('admin-csv')" style="margin-left:auto">💾 CSV出力</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-val" style="color:var(--admin)">14</div>
+        <div class="stat-lbl">対象従業員数</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" style="color:var(--employee)">22日</div>
+        <div class="stat-lbl">営業日数</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" style="color:var(--warning)">176h</div>
+        <div class="stat-lbl">総労働時間</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead>
+            <tr><th>氏名</th><th>出勤日数</th><th>実働合計</th><th>休憩合計</th><th>残業時間</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>田中 太郎</td><td class="mono">22日</td><td class="mono">162h00m</td><td class="mono">22h00m</td><td class="mono" style="color:var(--danger)">2h00m</td></tr>
+            <tr><td>佐藤 花子</td><td class="mono">11日</td><td class="mono">80h30m</td> <td class="mono">11h00m</td><td class="mono">0h00m</td></tr>
+            <tr><td>鈴木 一郎</td><td class="mono">8日</td> <td class="mono">48h00m</td> <td class="mono">6h00m</td> <td class="mono">0h00m</td></tr>
+            <tr><td>高橋 美咲</td><td class="mono">18日</td><td class="mono">130h00m</td><td class="mono">18h00m</td><td class="mono">0h00m</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     ADMIN CSV
+════════════════════════════════ -->
+<div id="screen-admin-csv" class="screen">
+  <div class="app-header">
+    <div class="app-logo">🏢 勤怠管理システム</div>
+    <div class="app-user"><div class="avatar">👤</div>田中 太郎</div>
+  </div>
+  <div class="role-banner role-admin">🔵 管理者（店長）モードでログイン中</div>
+  <div class="sub-nav">
+    <div class="sub-tab" onclick="show('admin-dash')">ダッシュボード</div>
+    <div class="sub-tab" onclick="show('admin-list')">勤怠一覧</div>
+    <div class="sub-tab" onclick="show('admin-approval')">修正申請</div>
+    <div class="sub-tab active">月次集計</div>
+  </div>
+
+  <div class="page-wrap page-pad">
+    <div class="page-title">💾 CSV出力</div>
+    <div class="annotation">📐 月次勤怠データをCSVダウンロード。給与計算ソフト連携用。</div>
+
+    <div class="card">
+      <div class="card-head">出力条件設定</div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">対象月 <span class="required">*</span></label>
+          <div class="form-control">2025年 6月</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">出力対象</label>
+          <div class="form-control">全従業員</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">出力フォーマット</label>
+          <div class="form-control">給与計算ソフト標準形式</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">プレビュー（先頭3行）</div>
+      <div class="card-body">
+        <div style="background:#f7f8fa;border:1px solid var(--border);border-radius:4px;padding:12px;font-family:var(--mono);font-size:11px;color:var(--text-sub);line-height:1.9">
+          氏名,日付,出勤,退勤,休憩時間,実働時間<br>
+          田中太郎,2025/06/01,09:02,18:10,1:00,8:08<br>
+          田中太郎,2025/06/02,08:58,18:00,1:00,8:02<br>
+          <span style="color:var(--text-muted)">...</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary">⬇ CSVをダウンロード</button>
+      <button class="btn btn-ghost" onclick="show('admin-monthly')">← 戻る</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     EMPLOYEE DASHBOARD
+════════════════════════════════ -->
+<div id="screen-emp-dash" class="screen">
+  <div class="app-header">
+    <div class="app-logo">🏢 勤怠管理システム</div>
+    <div class="app-user"><div class="avatar">👤</div>山田 二郎</div>
+  </div>
+  <div class="role-banner role-employee">🟢 従業員（アルバイト）モードでログイン中</div>
+  <div class="sub-nav">
+    <div class="sub-tab active">ダッシュボード</div>
+    <div class="sub-tab" onclick="show('emp-punch')">打刻</div>
+    <div class="sub-tab" onclick="show('emp-history')">勤怠確認</div>
+    <div class="sub-tab" onclick="show('emp-request')">修正申請</div>
+  </div>
+
+  <div class="page-wrap page-pad">
+    <div class="page-title">🏠 マイダッシュボード</div>
+    <div class="annotation">📐 本日の勤怠ステータス表示。打刻ボタンへのショートカット。</div>
+
+    <div class="card">
+      <div class="card-head">本日のステータス</div>
+      <div class="card-body">
+        <div style="text-align:center;margin-bottom:14px">
+          <span class="badge badge-working" style="font-size:14px;padding:6px 20px">▶ 勤務中</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-val" style="color:var(--employee);font-size:18px">09:02</div>
+            <div class="stat-lbl">出勤</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" style="color:var(--warning);font-size:18px">12:00</div>
+            <div class="stat-lbl">休憩開始</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" style="color:var(--text-muted);font-size:18px">—</div>
+            <div class="stat-lbl">退勤</div>
+          </div>
+        </div>
+        <button class="btn btn-success btn-full" onclick="show('emp-punch')">⏱ 打刻画面を開く</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">クイックメニュー</div>
+      <div class="card-body">
+        <button class="btn btn-outline btn-full" onclick="show('emp-history')">📅 自身の勤怠確認</button>
+        <button class="btn btn-outline btn-full" onclick="show('emp-request')">📝 打刻修正申請</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     EMPLOYEE PUNCH
+════════════════════════════════ -->
+<div id="screen-emp-punch" class="screen">
+  <div class="app-header">
+    <div class="app-logo">🏢 勤怠管理システム</div>
+    <div class="app-user"><div class="avatar">👤</div>山田 二郎</div>
+  </div>
+  <div class="role-banner role-employee">🟢 従業員（アルバイト）モードでログイン中</div>
+  <div class="sub-nav">
+    <div class="sub-tab" onclick="show('emp-dash')">ダッシュボード</div>
+    <div class="sub-tab active">打刻</div>
+    <div class="sub-tab" onclick="show('emp-history')">勤怠確認</div>
+    <div class="sub-tab" onclick="show('emp-request')">修正申請</div>
+  </div>
+
+  <div class="page-wrap page-pad">
+    <div class="page-title">⏱ 打刻</div>
+    <div class="annotation">📐 4種ボタン（状態制御）。現在時刻表示。打刻済み時刻確認。</div>
+
+    <div class="clock-box">
+      <div class="clock-time">14:32</div>
+      <div class="clock-date">2025年6月12日（木）</div>
+    </div>
+
+    <div class="punch-grid">
+      <div class="punch-btn clock-in disabled">
+        <div class="punch-icon">🟢</div>
+        <div class="punch-label">出勤</div>
+        <div class="punch-sublabel">09:02 打刻済み</div>
+      </div>
+      <div class="punch-btn break-s">
+        <div class="punch-icon">☕</div>
+        <div class="punch-label">休憩開始</div>
+        <div class="punch-sublabel">タップで打刻</div>
+      </div>
+      <div class="punch-btn break-e disabled">
+        <div class="punch-icon">🔄</div>
+        <div class="punch-label">休憩終了</div>
+        <div class="punch-sublabel">休憩後に有効</div>
+      </div>
+      <div class="punch-btn clock-out disabled">
+        <div class="punch-icon">🔴</div>
+        <div class="punch-label">退勤</div>
+        <div class="punch-sublabel">退勤時に有効</div>
+      </div>
+    </div>
+
+    <div class="annotation">💡 ボタンは状態に応じて有効 / 無効が自動切り替えされます</div>
+
+    <div class="card">
+      <div class="card-head">本日の打刻記録</div>
+      <div class="card-body">
+        <div class="info-list">
+          <div class="info-row"><span class="info-key">出勤</span>  <span class="info-val">09:02</span></div>
+          <div class="info-row"><span class="info-key">休憩開始</span><span class="info-val">—</span></div>
+          <div class="info-row"><span class="info-key">休憩終了</span><span class="info-val">—</span></div>
+          <div class="info-row"><span class="info-key">退勤</span>  <span class="info-val">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     EMPLOYEE HISTORY
+════════════════════════════════ -->
+<div id="screen-emp-history" class="screen">
+  <div class="app-header">
+    <div class="app-logo">🏢 勤怠管理システム</div>
+    <div class="app-user"><div class="avatar">👤</div>山田 二郎</div>
+  </div>
+  <div class="role-banner role-employee">🟢 従業員（アルバイト）モードでログイン中</div>
+  <div class="sub-nav">
+    <div class="sub-tab" onclick="show('emp-dash')">ダッシュボード</div>
+    <div class="sub-tab" onclick="show('emp-punch')">打刻</div>
+    <div class="sub-tab active">勤怠確認</div>
+    <div class="sub-tab" onclick="show('emp-request')">修正申請</div>
+  </div>
+
+  <div class="page-wrap page-pad">
+    <div class="page-title">📅 自身の勤怠確認</div>
+    <div class="annotation">📐 日別の出退勤・休憩・実働時間一覧。月切り替え表示。</div>
+
+    <div class="filter-bar">
+      <label>対象月</label>
+      <div class="filter-select">◀ 2025年 6月 ▶</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-val" style="color:var(--employee)">12日</div>
+        <div class="stat-lbl">出勤日数</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" style="color:var(--admin)">96h</div>
+        <div class="stat-lbl">実働合計</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" style="color:var(--warning)">12h</div>
+        <div class="stat-lbl">休憩合計</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead><tr><th>日付</th><th>出勤</th><th>退勤</th><th>休憩</th><th>実働</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">06/12（木）</td><td class="mono">09:02</td><td class="mono">—</td>   <td class="mono">—</td>   <td><span class="badge badge-working">勤務中</span></td></tr>
+            <tr><td class="mono">06/11（水）</td><td class="mono">09:15</td><td class="mono">18:00</td><td class="mono">1h00m</td><td class="mono">7h45m</td></tr>
+            <tr><td class="mono">06/10（火）</td><td class="mono">09:00</td><td class="mono">18:10</td><td class="mono">1h00m</td><td class="mono">8h10m</td></tr>
+            <tr><td class="mono">06/09（月）</td><td class="mono">08:50</td><td class="mono">17:30</td><td class="mono">1h00m</td><td class="mono">7h40m</td></tr>
+            <tr><td class="mono">06/08（日）</td><td class="mono">10:00</td><td class="mono">16:00</td><td class="mono">0h45m</td><td class="mono">5h15m</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <button class="btn btn-outline" onclick="show('emp-request')">📝 打刻修正申請へ</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     EMPLOYEE REQUEST
+════════════════════════════════ -->
+<div id="screen-emp-request" class="screen">
+  <div class="app-header">
+    <div class="app-logo">🏢 勤怠管理システム</div>
+    <div class="app-user"><div class="avatar">👤</div>山田 二郎</div>
+  </div>
+  <div class="role-banner role-employee">🟢 従業員（アルバイト）モードでログイン中</div>
+  <div class="sub-nav">
+    <div class="sub-tab" onclick="show('emp-dash')">ダッシュボード</div>
+    <div class="sub-tab" onclick="show('emp-punch')">打刻</div>
+    <div class="sub-tab" onclick="show('emp-history')">勤怠確認</div>
+    <div class="sub-tab active">修正申請</div>
+  </div>
+
+  <div class="page-wrap page-pad">
+    <div class="page-title">📝 打刻修正申請</div>
+    <div class="annotation">📐 修正対象日・内容・理由を入力して申請。申請履歴・承認状況も確認。</div>
+
+    <div class="card">
+      <div class="card-head">新規申請</div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">修正対象日 <span class="required">*</span></label>
+          <div class="form-control">2025年 6月 10日（火）</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">修正区分 <span class="required">*</span></label>
+          <div class="form-control">退勤時刻</div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">修正前の時刻</label>
+            <div class="form-control">17:30</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">修正後の時刻 <span class="required">*</span></label>
+            <div class="form-control">18:00</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">申請理由 <span class="required">*</span></label>
+          <textarea class="form-control">打刻し忘れました。退勤は18:00です。</textarea>
+        </div>
+        <button class="btn btn-primary">申請を送信する</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">申請履歴</div>
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead><tr><th>申請日</th><th>対象日</th><th>修正内容</th><th>ステータス</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="mono">06/12</td>
+              <td class="mono">06/10</td>
+              <td style="font-size:12px">退勤 17:30→18:00</td>
+              <td><span class="badge badge-pending">● 未承認</span></td>
+            </tr>
+            <tr>
+              <td class="mono">06/05</td>
+              <td class="mono">06/03</td>
+              <td style="font-size:12px">出勤 10:00→09:30</td>
+              <td><span class="badge badge-approved">✔ 承認済</span></td>
+            </tr>
+            <tr>
+              <td class="mono">05/20</td>
+              <td class="mono">05/19</td>
+              <td style="font-size:12px">退勤 17:00→18:30</td>
+              <td><span class="badge badge-rejected">✖ 却下</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     PROFILE
+════════════════════════════════ -->
+<div id="screen-profile" class="screen">
+  <div class="app-header">
+    <div class="app-logo">🏢 勤怠管理システム</div>
+    <div class="app-user"><div class="avatar">👤</div>田中 太郎</div>
+  </div>
+  <div class="role-banner role-shared">🟡 プロフィール設定（管理者・従業員共通）</div>
+
+  <div class="page-wrap page-pad" style="max-width:520px">
+    <div class="page-title">⚙️ プロフィール設定</div>
+    <div class="annotation">📐 パスワード変更・表示名変更・ログアウト。管理者・従業員共通画面。</div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="profile-avatar-box">
+          <div class="profile-avatar">👤</div>
+          <div class="profile-name">田中 太郎</div>
+          <div class="profile-mail">tanaka&#64;company.co.jp</div>
+          <div style="margin-top:8px"><span class="badge badge-admin-role">管理者</span></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">表示名</label>
+          <div class="form-control">田中 太郎</div>
+        </div>
+        <div class="btn-row" style="margin-bottom:16px">
+          <button class="btn btn-outline btn-sm">表示名を更新する</button>
+        </div>
+
+        <hr style="border:none;border-top:1px solid var(--border);margin:16px 0">
+
+        <div style="font-size:13px;font-weight:700;color:var(--text-sub);margin-bottom:12px">パスワード変更</div>
+        <div class="form-group">
+          <label class="form-label">現在のパスワード</label>
+          <div class="form-control placeholder">••••••••</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">新しいパスワード</label>
+          <div class="form-control placeholder">••••••••</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">新しいパスワード（確認）</label>
+          <div class="form-control placeholder">••••••••</div>
+        </div>
+        <div class="btn-row" style="margin-bottom:16px">
+          <button class="btn btn-ghost btn-sm">パスワードを変更する</button>
+        </div>
+
+        <hr style="border:none;border-top:1px solid var(--border);margin:16px 0">
+        <button class="btn btn-danger btn-full" onclick="show('login')">ログアウト</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /screens -->
+
+<script>
+const ALL = ['login','admin-dash','admin-list','admin-approval','admin-monthly','admin-csv',
+             'emp-dash','emp-punch','emp-history','emp-request','profile'];
+
+const ROLE = {
+  'login':'shared','profile':'shared',
+  'admin-dash':'admin','admin-list':'admin','admin-approval':'admin','admin-monthly':'admin','admin-csv':'admin',
+  'emp-dash':'employee','emp-punch':'employee','emp-history':'employee','emp-request':'employee'
+};
+
+function show(id) {
+  ALL.forEach(s => {
+    const el = document.getElementById('screen-' + s);
+    if (el) el.classList.remove('active');
+  });
+  const target = document.getElementById('screen-' + id);
+  if (target) target.classList.add('active');
+
+  document.querySelectorAll('.sw-btn').forEach((b, i) => {
+    b.className = 'sw-btn';
+    if (ALL[i] === id) {
+      const r = ROLE[id] || 'shared';
+      b.className = 'sw-btn on-' + r;
+    }
+  });
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
