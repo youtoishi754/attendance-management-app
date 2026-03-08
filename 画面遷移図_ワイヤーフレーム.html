@@ -5,682 +5,691 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>勤怠管理システム｜画面遷移図</title>
 <style>
-  :root {
-    --bg:       #f4f6f9;
-    --surface:  #ffffff;
-    --border:   #dde2ea;
+/* ============================================================
+   CSS Variables
+============================================================ */
+:root {
+  --bg:          #eef1f6;
+  --surface:     #ffffff;
+  --border:      #cdd5e0;
 
-    --navy:     #1a3a5c;
-    --admin:    #1a5fb4;
-    --admin-lt: #e8f0fb;
-    --admin-bd: #93b8f0;
+  --admin:       #1a5fb4;
+  --admin-lt:    #dbeafe;
+  --admin-bd:    #7cb4f0;
 
-    --emp:      #1a7a4b;
-    --emp-lt:   #e4f5ec;
-    --emp-bd:   #7ecda0;
+  --emp:         #1e7a4b;
+  --emp-lt:      #d1fae5;
+  --emp-bd:      #5fbf85;
 
-    --shared:   #b45309;
-    --shared-lt:#fef3e2;
-    --shared-bd:#f5c26e;
+  --shared:      #a05000;
+  --shared-lt:   #fef3e2;
+  --shared-bd:   #e8a83a;
 
-    --arrow:    #94a3b8;
-    --arrow-admin: #6da0e8;
-    --arrow-emp:   #5aba7e;
-    --arrow-flow:  #a78bfa;
+  --arr-admin:   #4a90d9;
+  --arr-emp:     #34a36a;
+  --arr-gray:    #8a9aae;
+  --arr-purple:  #6d28d9;
 
-    --text:     #1a2236;
-    --text-sub: #4b5a72;
-    --text-dim: #8494aa;
+  --text:        #18253a;
+  --text-sub:    #48596e;
+  --text-dim:    #7a8fa4;
 
-    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'BIZ UDPGothic', Meiryo, sans-serif;
-    --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, 'Courier New', monospace;
-  }
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans',
+          'Hiragino Kaku Gothic ProN', 'BIZ UDPGothic', Meiryo, sans-serif;
+  --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,
+          'Courier New', monospace;
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  --shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+}
 
-  body {
-    background: var(--bg);
-    font-family: var(--font);
-    min-height: 100vh;
-    padding: 32px 24px 60px;
-  }
+/* ============================================================
+   Reset & Base
+============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* ── Header ── */
-  .header {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-  .header-title {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--navy);
-    letter-spacing: .03em;
-  }
-  .header-sub {
-    font-size: 12px;
-    color: var(--text-dim);
-    margin-top: 4px;
-    font-family: var(--mono);
-    letter-spacing: .06em;
-  }
+body {
+  background: var(--bg);
+  font-family: var(--font);
+  color: var(--text);
+  padding: 36px 20px 72px;
+  min-height: 100vh;
+}
 
-  /* ── Legend ── */
-  .legend {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 28px;
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--text-sub);
-  }
-  .legend-dot {
-    width: 12px; height: 12px;
-    border-radius: 3px;
-    flex-shrink: 0;
-  }
-  .legend-line {
-    width: 24px; height: 2px;
-    flex-shrink: 0;
-  }
+/* ============================================================
+   Page header
+============================================================ */
+.page-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.page-header__title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--text);
+}
+.page-header__sub {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text-dim);
+  letter-spacing: .08em;
+  margin-top: 5px;
+  text-transform: uppercase;
+}
 
-  /* ── Diagram container ── */
-  .diagram {
-    max-width: 900px;
-    margin: 0 auto;
-    position: relative;
-  }
+/* ============================================================
+   Legend
+============================================================ */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 20px;
+  margin-bottom: 32px;
+}
+.legend__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-sub);
+}
+.legend__swatch {
+  width: 13px;
+  height: 13px;
+  border-radius: 3px;
+  border: 1.5px solid;
+  flex-shrink: 0;
+}
+.legend__line {
+  width: 22px;
+  border-top: 2px solid;
+  flex-shrink: 0;
+}
+.legend__dline {
+  width: 22px;
+  border-top: 2px dashed;
+  flex-shrink: 0;
+}
 
-  /* ── Column layout ── */
-  .columns {
-    display: grid;
-    grid-template-columns: 1fr 180px 1fr;
-    gap: 0;
-    align-items: start;
-  }
+/* ============================================================
+   Diagram root
+============================================================ */
+.diagram {
+  max-width: 840px;
+  margin: 0 auto;
+  position: relative;
+}
 
-  .col-label {
-    text-align: center;
-    font-size: 11px;
-    font-weight: 700;
-    font-family: var(--mono);
-    letter-spacing: .08em;
-    padding: 6px 0 14px;
-    border-bottom: 2px solid;
-    margin-bottom: 20px;
-  }
-  .col-label.admin    { color: var(--admin);  border-color: var(--admin); }
-  .col-label.center   { color: var(--text-dim); border-color: var(--border); }
-  .col-label.employee { color: var(--emp);    border-color: var(--emp); }
+/* ============================================================
+   Node
+============================================================ */
+.node {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 11px 14px;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+.node--shared { border-color: var(--shared-bd); }
+.node--admin  { border-color: var(--admin-bd);  }
+.node--emp    { border-color: var(--emp-bd);    }
 
-  /* ── Screen node ── */
-  .node {
-    border: 1.5px solid;
-    border-radius: 8px;
-    padding: 12px 14px;
-    position: relative;
-    background: var(--surface);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
-    margin-bottom: 0;
-  }
-  .node-admin  { border-color: var(--admin-bd);  background: var(--surface); }
-  .node-emp    { border-color: var(--emp-bd);    background: var(--surface); }
-  .node-shared { border-color: var(--shared-bd); background: var(--surface); }
+.node__label {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: var(--mono);
+  letter-spacing: .05em;
+  padding: 1px 8px;
+  border-radius: 99px;
+  margin-bottom: 5px;
+}
+.label--shared { background: var(--shared-lt); color: var(--shared); }
+.label--admin  { background: var(--admin-lt);  color: var(--admin);  }
+.label--emp    { background: var(--emp-lt);    color: var(--emp);    }
 
-  .node-tag {
-    display: inline-block;
-    font-size: 9px;
-    font-weight: 700;
-    font-family: var(--mono);
-    padding: 1px 7px;
-    border-radius: 20px;
-    margin-bottom: 6px;
-    letter-spacing: .06em;
-  }
-  .tag-admin  { background: var(--admin-lt);  color: var(--admin); }
-  .tag-emp    { background: var(--emp-lt);    color: var(--emp); }
-  .tag-shared { background: var(--shared-lt); color: var(--shared); }
+.node__title {
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 3px;
+  color: var(--text);
+}
+.node__desc {
+  font-size: 10.5px;
+  color: var(--text-dim);
+  line-height: 1.65;
+}
 
-  .node-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .node-desc {
-    font-size: 11px;
-    color: var(--text-dim);
-    line-height: 1.6;
-  }
+/* ============================================================
+   Login row
+============================================================ */
+.row-login {
+  display: flex;
+  justify-content: center;
+}
+.row-login .node {
+  width: min(240px, 100%);
+  text-align: center;
+}
+.row-login .node__title { justify-content: center; }
 
-  /* ── Column stacks ── */
-  .col-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    position: relative;
-  }
+/* ============================================================
+   Branch gap (SVG drawn by JS)
+============================================================ */
+.branch-gap {
+  position: relative;
+  height: 58px;
+}
 
-  /* vertical connector between nodes in same column */
-  .v-conn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 32px;
-    position: relative;
-  }
-  .v-conn::before {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0;
-    left: 50%;
-    width: 1.5px;
-    transform: translateX(-50%);
-  }
-  .v-conn.admin-line::before   { background: var(--arrow-admin); }
-  .v-conn.emp-line::before     { background: var(--arrow-emp); }
-  .v-conn.shared-line::before  { background: var(--arrow); }
+/* ============================================================
+   Column headers
+============================================================ */
+.col-headers {
+  display: grid;
+  grid-template-columns: 1fr 44px 1fr;
+  margin-bottom: 10px;
+}
+.col-hd {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--mono);
+  letter-spacing: .06em;
+  text-align: center;
+  padding: 6px 8px;
+  border-radius: 4px;
+}
+.col-hd--admin { background: var(--admin-lt); color: var(--admin); }
+.col-hd--emp   { background: var(--emp-lt);   color: var(--emp);   }
 
-  .arrow-head {
-    width: 0; height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .arrow-head.admin-arrow   { border-top: 7px solid var(--arrow-admin); }
-  .arrow-head.emp-arrow     { border-top: 7px solid var(--arrow-emp); }
-  .arrow-head.shared-arrow  { border-top: 7px solid var(--arrow); }
+/* ============================================================
+   Two-column layout
+============================================================ */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 44px 1fr;
+  align-items: start;
+}
 
-  /* ── Center column ── */
-  .center-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 0;
-  }
+.flow-col {
+  display: flex;
+  flex-direction: column;
+}
 
-  /* ── Login node (center) ── */
-  .login-wrap {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0;
-  }
-  .login-node {
-    width: 160px;
-  }
+/* Vertical connector */
+.vcon {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 30px;
+  position: relative;
+}
+.vcon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  left: calc(50% - 1px);
+  width: 2px;
+}
+.vcon--admin::before { background: var(--arr-admin); }
+.vcon--emp::before   { background: var(--arr-emp);   }
 
-  /* ── Branch lines from login ── */
-  .branch-row {
-    display: flex;
-    align-items: flex-start;
-    position: relative;
-    height: 48px;
-    width: 100%;
-    margin-bottom: 0;
-  }
+.vcon__head {
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left:  5px solid transparent;
+  border-right: 5px solid transparent;
+}
+.vcon__head--admin { border-top: 7px solid var(--arr-admin); }
+.vcon__head--emp   { border-top: 7px solid var(--arr-emp);   }
 
-  /* ── Cross-column flow (申請→承認) ── */
-  .flow-arrow {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    background: #f3f0ff;
-    border: 1px dashed #c4b5fd;
-    border-radius: 6px;
-    margin: 8px 0;
-  }
-  .flow-label {
-    font-size: 10px;
-    color: var(--arrow-flow);
-    font-family: var(--mono);
-    font-weight: 700;
-  }
+/* Center divider */
+.col-divider {
+  display: flex;
+  justify-content: center;
+  padding-top: 4px;
+}
+.col-divider__bar {
+  width: 1px;
+  height: 100%;
+  min-height: 300px;
+  background: var(--border);
+}
 
-  /* ── Logout row ── */
-  .logout-row {
-    display: flex;
-    justify-content: center;
-    margin-top: 0;
-  }
-  .logout-node {
-    width: 160px;
-    border: 1px dashed var(--border);
-    border-radius: 8px;
-    padding: 8px 14px;
-    text-align: center;
-    background: var(--surface);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-  }
-  .logout-node .node-title {
-    font-size: 12px;
-    justify-content: center;
-    color: var(--text-sub);
-  }
-  .logout-node .node-desc {
-    font-size: 10px;
-    text-align: center;
-  }
+/* ============================================================
+   Shared section bottom
+============================================================ */
+.row-merge-gap {
+  position: relative;
+  height: 40px;
+}
+.row-profile {
+  display: flex;
+  justify-content: center;
+}
+.row-profile .node {
+  width: min(240px, 100%);
+  text-align: center;
+}
+.row-profile .node__title { justify-content: center; }
 
-  /* SVG overlay for arrows */
-  .svg-overlay {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    overflow: visible;
-  }
+.row-logout-gap {
+  position: relative;
+  height: 32px;
+}
+.row-logout {
+  display: flex;
+  justify-content: center;
+}
+.logout-chip {
+  width: min(180px, 100%);
+  background: var(--surface);
+  border: 1.5px dashed var(--border);
+  border-radius: 8px;
+  padding: 9px 14px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.logout-chip__title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-sub);
+  margin-bottom: 2px;
+}
+.logout-chip__desc {
+  font-size: 10px;
+  color: var(--text-dim);
+}
 
-  /* ── Main layout wrapper ── */
-  .flow-wrap {
-    position: relative;
-  }
-
-  /* ── Row containers ── */
-  .row-login     { display: flex; justify-content: center; margin-bottom: 0; }
-  .row-branch    { position: relative; height: 52px; }
-  .row-main      {
-    display: grid;
-    grid-template-columns: 1fr 40px 1fr;
-    gap: 0;
-    align-items: start;
-  }
-  .row-flow      { display: flex; justify-content: center; margin: 0; }
-  .row-profile   { display: flex; justify-content: center; margin: 0; }
-  .row-logout    { display: flex; justify-content: center; margin: 0; }
-
-  .divider-line {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 6px 0;
-    gap: 8px;
-  }
-  .divider-line::before,
-  .divider-line::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-  .divider-text {
-    font-size: 10px;
-    color: var(--text-dim);
-    font-family: var(--mono);
-    white-space: nowrap;
-    letter-spacing: .05em;
-  }
-
-  .center-divider {
-    width: 1px;
-    background: var(--border);
-    align-self: stretch;
-    margin: 0 auto;
-    position: relative;
-  }
-  .center-divider::after {
-    content: 'ADMIN ← | → EMPLOYEE';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(90deg);
-    font-size: 9px;
-    font-family: var(--mono);
-    color: var(--border);
-    white-space: nowrap;
-    letter-spacing: .1em;
-  }
-
-  /* column headers */
-  .col-headers {
-    display: grid;
-    grid-template-columns: 1fr 40px 1fr;
-    margin-bottom: 12px;
-  }
-  .col-hd {
-    text-align: center;
-    padding: 6px 10px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    font-family: var(--mono);
-    letter-spacing: .06em;
-  }
-  .col-hd.admin-hd    { background: var(--admin-lt);  color: var(--admin); }
-  .col-hd.emp-hd      { background: var(--emp-lt);    color: var(--emp); }
-  .col-hd.center-hd   { background: transparent; }
-
-  /* Print / export note */
-  .export-note {
-    text-align: center;
-    margin-top: 32px;
-    font-size: 11px;
-    color: var(--text-dim);
-    font-family: var(--mono);
-  }
+/* ============================================================
+   Footer note
+============================================================ */
+.footer-note {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 11px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-title">勤怠管理システム｜画面遷移図</div>
-  <div class="header-sub">SCREEN FLOW DIAGRAM · ATTENDANCE MANAGEMENT SYSTEM</div>
-</div>
+<header class="page-header">
+  <h1 class="page-header__title">勤怠管理システム｜画面遷移図</h1>
+  <p class="page-header__sub">Screen Flow Diagram &middot; Attendance Management System</p>
+</header>
 
 <!-- Legend -->
 <div class="legend">
-  <div class="legend-item">
-    <div class="legend-dot" style="background:var(--shared-lt);border:1.5px solid var(--shared-bd)"></div>
+  <div class="legend__item">
+    <div class="legend__swatch" style="background:var(--shared-lt);border-color:var(--shared-bd)"></div>
     共通画面（管理者・従業員）
   </div>
-  <div class="legend-item">
-    <div class="legend-dot" style="background:var(--admin-lt);border:1.5px solid var(--admin-bd)"></div>
+  <div class="legend__item">
+    <div class="legend__swatch" style="background:var(--admin-lt);border-color:var(--admin-bd)"></div>
     管理者（店長）専用
   </div>
-  <div class="legend-item">
-    <div class="legend-dot" style="background:var(--emp-lt);border:1.5px solid var(--emp-bd)"></div>
+  <div class="legend__item">
+    <div class="legend__swatch" style="background:var(--emp-lt);border-color:var(--emp-bd)"></div>
     従業員（アルバイト）専用
   </div>
-  <div class="legend-item">
-    <div class="legend-line" style="background:var(--arrow-admin)"></div>
+  <div class="legend__item">
+    <div class="legend__line" style="border-color:var(--arr-admin)"></div>
     管理者フロー
   </div>
-  <div class="legend-item">
-    <div class="legend-line" style="background:var(--arrow-emp)"></div>
+  <div class="legend__item">
+    <div class="legend__line" style="border-color:var(--arr-emp)"></div>
     従業員フロー
   </div>
-  <div class="legend-item">
-    <div class="legend-line" style="background:var(--arrow-flow);border-top:2px dashed var(--arrow-flow);height:0"></div>
+  <div class="legend__item">
+    <div class="legend__dline" style="border-color:var(--arr-purple)"></div>
     承認フロー
   </div>
 </div>
 
-<!-- ── Diagram ── -->
-<div class="diagram">
+<!-- ===================== DIAGRAM ===================== -->
+<div class="diagram" id="diagram">
 
-  <!-- LOGIN -->
-  <div class="row-login" style="margin-bottom:0">
-    <div class="node node-shared" style="width:220px;text-align:center">
-      <div style="display:flex;justify-content:center;margin-bottom:6px">
-        <span class="node-tag tag-shared">SHARED</span>
+  <!-- Shared SVG marker definitions -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <marker id="m-admin"  markerWidth="8" markerHeight="8" refX="3.5" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L7,3 z" fill="#4a90d9"/>
+      </marker>
+      <marker id="m-emp"    markerWidth="8" markerHeight="8" refX="3.5" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L7,3 z" fill="#34a36a"/>
+      </marker>
+      <marker id="m-gray"   markerWidth="8" markerHeight="8" refX="3.5" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L7,3 z" fill="#8a9aae"/>
+      </marker>
+    </defs>
+  </svg>
+
+  <!-- Login -->
+  <div class="row-login">
+    <div class="node node--shared" id="n-login">
+      <div style="text-align:center;margin-bottom:5px">
+        <span class="node__label label--shared">SHARED</span>
       </div>
-      <div class="node-title" style="justify-content:center">🔐 ログイン画面</div>
-      <div class="node-desc">メール＋パスワード認証<br>ロール判定 → 各ダッシュボードへ遷移</div>
+      <div class="node__title" style="justify-content:center">🔐 ログイン画面</div>
+      <div class="node__desc" style="text-align:center">
+        メール＋パスワード認証<br>ロール判定 → 各ダッシュボードへ遷移
+      </div>
     </div>
   </div>
 
-  <!-- BRANCH SVG -->
-  <div style="position:relative;height:56px">
-    <svg width="100%" height="56" style="position:absolute;top:0;left:0;overflow:visible">
-      <!-- vertical from login -->
-      <line x1="50%" y1="0" x2="50%" y2="20" stroke="#94a3b8" stroke-width="1.5"/>
-      <!-- horizontal branch -->
-      <line x1="25%" y1="20" x2="75%" y2="20" stroke="#94a3b8" stroke-width="1.5"/>
-      <!-- left branch down -->
-      <line x1="25%" y1="20" x2="25%" y2="50" stroke="#6da0e8" stroke-width="1.5" marker-end="url(#arr-admin)"/>
-      <!-- right branch down -->
-      <line x1="75%" y1="20" x2="75%" y2="50" stroke="#5aba7e" stroke-width="1.5" marker-end="url(#arr-emp)"/>
-      <!-- labels -->
-      <text x="28%" y="16" fill="#8494aa" font-size="10" font-family="monospace">管理者ロール</text>
-      <text x="57%" y="16" fill="#8494aa" font-size="10" font-family="monospace">従業員ロール</text>
-      <defs>
-        <marker id="arr-admin" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L7,3 z" fill="#6da0e8"/>
-        </marker>
-        <marker id="arr-emp" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L7,3 z" fill="#5aba7e"/>
-        </marker>
-        <marker id="arr-gray" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L7,3 z" fill="#94a3b8"/>
-        </marker>
-        <marker id="arr-purple" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto">
-          <path d="M0,0 L0,6 L7,3 z" fill="#a78bfa"/>
-        </marker>
-      </defs>
-    </svg>
+  <!-- Branch gap -->
+  <div class="branch-gap">
+    <svg id="svg-branch" width="100%" height="58"
+         style="position:absolute;top:0;left:0;overflow:visible"
+         aria-hidden="true"></svg>
   </div>
 
   <!-- Column headers -->
   <div class="col-headers">
-    <div class="col-hd admin-hd">ADMIN｜管理者（店長）</div>
-    <div class="col-hd center-hd"></div>
-    <div class="col-hd emp-hd">EMPLOYEE｜従業員（アルバイト）</div>
+    <div class="col-hd col-hd--admin">ADMIN｜管理者（店長）</div>
+    <div></div>
+    <div class="col-hd col-hd--emp">EMPLOYEE｜従業員（アルバイト）</div>
   </div>
 
-  <!-- MAIN TWO COLUMNS -->
-  <div class="row-main">
+  <!-- Two columns -->
+  <div class="two-col">
 
-    <!-- ADMIN COLUMN -->
-    <div class="col-stack">
+    <!-- Admin column -->
+    <div class="flow-col" id="col-admin">
 
-      <div class="node node-admin">
-        <span class="node-tag tag-admin">ADMIN</span>
-        <div class="node-title">🏠 管理者ダッシュボード</div>
-        <div class="node-desc">全従業員の勤怠ステータス確認<br>各機能へのナビゲーション</div>
+      <div class="node node--admin" id="n-admin-dash">
+        <span class="node__label label--admin">ADMIN</span>
+        <div class="node__title">🏠 管理者ダッシュボード</div>
+        <div class="node__desc">全従業員の勤怠ステータス確認<br>各機能へのナビゲーション</div>
       </div>
 
-      <div class="v-conn admin-line">
-        <div class="arrow-head admin-arrow"></div>
+      <div class="vcon vcon--admin">
+        <div class="vcon__head vcon__head--admin"></div>
       </div>
 
-      <div class="node node-admin">
-        <span class="node-tag tag-admin">ADMIN</span>
-        <div class="node-title">📋 全従業員 勤怠一覧</div>
-        <div class="node-desc">従業員別・日付別の出退勤一覧<br>月・週フィルター</div>
+      <div class="node node--admin">
+        <span class="node__label label--admin">ADMIN</span>
+        <div class="node__title">📋 全従業員 勤怠一覧</div>
+        <div class="node__desc">従業員別・日付別の出退勤一覧<br>月・週フィルター</div>
       </div>
 
-      <div class="v-conn admin-line">
-        <div class="arrow-head admin-arrow"></div>
+      <div class="vcon vcon--admin">
+        <div class="vcon__head vcon__head--admin"></div>
       </div>
 
-      <div class="node node-admin" id="node-approval">
-        <span class="node-tag tag-admin">ADMIN</span>
-        <div class="node-title">✏️ 修正申請一覧・承認</div>
-        <div class="node-desc">未承認 / 承認済 / 却下の一覧<br>申請内容確認・承認・却下操作</div>
+      <div class="node node--admin" id="n-approval">
+        <span class="node__label label--admin">ADMIN</span>
+        <div class="node__title">✏️ 修正申請一覧・承認</div>
+        <div class="node__desc">未承認 / 承認済 / 却下の一覧<br>申請内容確認・承認・却下操作</div>
       </div>
 
-      <div class="v-conn admin-line">
-        <div class="arrow-head admin-arrow"></div>
+      <div class="vcon vcon--admin">
+        <div class="vcon__head vcon__head--admin"></div>
       </div>
 
-      <div class="node node-admin">
-        <span class="node-tag tag-admin">ADMIN</span>
-        <div class="node-title">📊 月次集計</div>
-        <div class="node-desc">指定月の従業員別勤務時間集計<br>実働・休憩時間の合計表示</div>
+      <div class="node node--admin">
+        <span class="node__label label--admin">ADMIN</span>
+        <div class="node__title">📊 月次集計</div>
+        <div class="node__desc">指定月の従業員別勤務時間集計<br>実働・休憩時間の合計表示</div>
       </div>
 
-      <div class="v-conn admin-line">
-        <div class="arrow-head admin-arrow"></div>
+      <div class="vcon vcon--admin">
+        <div class="vcon__head vcon__head--admin"></div>
       </div>
 
-      <div class="node node-admin">
-        <span class="node-tag tag-admin">ADMIN</span>
-        <div class="node-title">💾 CSV出力</div>
-        <div class="node-desc">月次勤怠データをCSVダウンロード<br>従業員番号（EMP-0001）で給与ソフトと紐づけ</div>
+      <div class="node node--admin">
+        <span class="node__label label--admin">ADMIN</span>
+        <div class="node__title">💾 CSV出力</div>
+        <div class="node__desc">月次勤怠データをCSVダウンロード<br>EMP-0001形式で給与ソフトと連携</div>
       </div>
 
+    </div><!-- /col-admin -->
+
+    <!-- Center divider -->
+    <div class="col-divider">
+      <div class="col-divider__bar"></div>
     </div>
 
-    <!-- CENTER DIVIDER -->
-    <div style="display:flex;justify-content:center;padding-top:20px">
-      <div style="width:1px;height:100%;background:var(--border);position:relative">
-        <div style="position:sticky;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:9px;color:var(--border);font-family:monospace;writing-mode:vertical-rl;padding:8px 0;letter-spacing:.1em">ADMIN ──── | ──── EMPLOYEE</div>
-      </div>
-    </div>
+    <!-- Employee column -->
+    <div class="flow-col" id="col-emp">
 
-    <!-- EMPLOYEE COLUMN -->
-    <div class="col-stack">
-
-      <div class="node node-emp">
-        <span class="node-tag tag-emp">EMPLOYEE</span>
-        <div class="node-title">🏠 従業員ダッシュボード</div>
-        <div class="node-desc">本日の勤怠ステータス表示<br>打刻ボタンへのショートカット</div>
+      <div class="node node--emp" id="n-emp-dash">
+        <span class="node__label label--emp">EMPLOYEE</span>
+        <div class="node__title">🏠 従業員ダッシュボード</div>
+        <div class="node__desc">本日の勤怠ステータス表示<br>打刻ボタンへのショートカット</div>
       </div>
 
-      <div class="v-conn emp-line">
-        <div class="arrow-head emp-arrow"></div>
+      <div class="vcon vcon--emp">
+        <div class="vcon__head vcon__head--emp"></div>
       </div>
 
-      <div class="node node-emp">
-        <span class="node-tag tag-emp">EMPLOYEE</span>
-        <div class="node-title">⏱ 打刻画面</div>
-        <div class="node-desc">出勤 / 休憩開始 / 休憩終了 / 退勤<br>現在時刻表示・ボタン状態制御</div>
+      <div class="node node--emp">
+        <span class="node__label label--emp">EMPLOYEE</span>
+        <div class="node__title">⏱ 打刻画面</div>
+        <div class="node__desc">出勤 / 休憩開始 / 休憩終了 / 退勤<br>現在時刻表示・ボタン状態制御</div>
       </div>
 
-      <div class="v-conn emp-line">
-        <div class="arrow-head emp-arrow"></div>
+      <div class="vcon vcon--emp">
+        <div class="vcon__head vcon__head--emp"></div>
       </div>
 
-      <div class="node node-emp">
-        <span class="node-tag tag-emp">EMPLOYEE</span>
-        <div class="node-title">📅 自身の勤怠確認</div>
-        <div class="node-desc">日別の出退勤・休憩・実働時間一覧<br>月切り替え表示</div>
+      <div class="node node--emp">
+        <span class="node__label label--emp">EMPLOYEE</span>
+        <div class="node__title">📅 自身の勤怠確認</div>
+        <div class="node__desc">日別の出退勤・休憩・実働時間一覧<br>月切り替え表示</div>
       </div>
 
-      <div class="v-conn emp-line">
-        <div class="arrow-head emp-arrow"></div>
+      <div class="vcon vcon--emp">
+        <div class="vcon__head vcon__head--emp"></div>
       </div>
 
-      <div class="node node-emp" id="node-request">
-        <span class="node-tag tag-emp">EMPLOYEE</span>
-        <div class="node-title">📝 打刻修正申請</div>
-        <div class="node-desc">修正対象日・内容・理由入力<br>申請履歴・承認状況確認</div>
+      <div class="node node--emp" id="n-request">
+        <span class="node__label label--emp">EMPLOYEE</span>
+        <div class="node__title">📝 打刻修正申請</div>
+        <div class="node__desc">修正対象日・内容・理由入力<br>申請履歴・承認状況確認</div>
       </div>
 
-      <!-- approval flow arrow placeholder -->
-      <div style="height:60px"></div>
+      <!-- Spacer to roughly align bottom of both columns -->
+      <div style="flex:1;min-height:52px"></div>
 
-    </div>
-  </div>
+    </div><!-- /col-emp -->
 
-  <!-- APPROVAL FLOW LABEL -->
-  <div style="position:relative;height:0">
-    <div id="approval-flow-label" style="
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      top:-90px;
-      background:#f3f0ff;
-      border:1px dashed #c4b5fd;
-      border-radius:6px;
-      padding:4px 10px;
-      font-size:10px;
-      color:#7c3aed;
-      font-family:monospace;
-      white-space:nowrap;
-      font-weight:700;
-      pointer-events:none;
-    ">申請 → 承認フロー</div>
-  </div>
+  </div><!-- /two-col -->
 
-  <!-- APPROVAL FLOW SVG (overlay) -->
-  <div id="flow-svg-wrap" style="position:relative;height:0;pointer-events:none">
-  </div>
-
-  <!-- SHARED PROFILE -->
-  <div style="height:32px;position:relative">
-    <svg width="100%" height="32" style="position:absolute;top:0;left:0;overflow:visible">
-      <!-- from admin col to profile -->
-      <line x1="25%" y1="0" x2="25%" y2="10"  stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3"/>
-      <line x1="25%" y1="10" x2="50%" y2="10" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3"/>
-      <line x1="50%" y1="10" x2="50%" y2="28" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arr-gray)"/>
-      <!-- from emp col to profile -->
-      <line x1="75%" y1="0" x2="75%" y2="10"  stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3"/>
-      <line x1="75%" y1="10" x2="50%" y2="10" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3"/>
-    </svg>
+  <!-- Merge → Profile -->
+  <div class="row-merge-gap">
+    <svg id="svg-merge" width="100%" height="40"
+         style="position:absolute;top:0;left:0;overflow:visible"
+         aria-hidden="true"></svg>
   </div>
 
   <div class="row-profile">
-    <div class="node node-shared" style="width:220px;text-align:center">
-      <div style="display:flex;justify-content:center;margin-bottom:6px">
-        <span class="node-tag tag-shared">SHARED</span>
+    <div class="node node--shared" id="n-profile">
+      <div style="text-align:center;margin-bottom:5px">
+        <span class="node__label label--shared">SHARED</span>
       </div>
-      <div class="node-title" style="justify-content:center">⚙️ プロフィール設定</div>
-      <div class="node-desc" style="text-align:center">パスワード変更・表示名変更<br>ログアウト</div>
+      <div class="node__title" style="justify-content:center">⚙️ プロフィール設定</div>
+      <div class="node__desc" style="text-align:center">
+        パスワード変更・表示名変更<br>ログアウト
+      </div>
     </div>
   </div>
 
-  <div style="height:28px;position:relative">
-    <svg width="100%" height="28" style="position:absolute;top:0;left:0;overflow:visible">
-      <line x1="50%" y1="0" x2="50%" y2="24" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-gray)"/>
-    </svg>
+  <!-- Profile → Logout -->
+  <div class="row-logout-gap">
+    <svg id="svg-logout" width="100%" height="32"
+         style="position:absolute;top:0;left:0;overflow:visible"
+         aria-hidden="true"></svg>
   </div>
 
   <div class="row-logout">
-    <div class="logout-node">
-      <div class="node-title">🔓 ログアウト</div>
-      <div class="node-desc" style="font-size:10px;color:var(--text-dim)">→ ログイン画面へ戻る</div>
+    <div class="logout-chip" id="n-logout">
+      <div class="logout-chip__title">🔓 ログアウト</div>
+      <div class="logout-chip__desc">→ ログイン画面へ戻る</div>
     </div>
   </div>
 
-</div>
+</div><!-- /diagram -->
 
-<!-- approval flow curved arrow via JS/SVG -->
+<p class="footer-note">
+  勤怠管理システム 画面遷移図 &middot; Attendance Management System Screen Flow
+</p>
+
 <script>
-window.addEventListener('load', () => {
-  const approval = document.getElementById('node-approval');
-  const request  = document.getElementById('node-request');
-  if (!approval || !request) return;
+(function () {
+  'use strict';
 
-  const diagram = document.querySelector('.diagram');
-  const dRect   = diagram.getBoundingClientRect();
-  const aRect   = approval.getBoundingClientRect();
-  const rRect   = request.getBoundingClientRect();
+  /**
+   * Get element bounding rect relative to #diagram.
+   */
+  function rel(el) {
+    var base = document.getElementById('diagram').getBoundingClientRect();
+    var er   = el.getBoundingClientRect();
+    return {
+      top:    er.top    - base.top,
+      bottom: er.bottom - base.top,
+      left:   er.left   - base.left,
+      right:  er.right  - base.left,
+      cx:     er.left   - base.left + er.width  / 2,
+      cy:     er.top    - base.top  + er.height / 2,
+    };
+  }
 
-  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  /** Append a <line> to an SVG element. */
+  function ln(svg, x1, y1, x2, y2, color, dash, marker) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    el.setAttribute('x1', x1); el.setAttribute('y1', y1);
+    el.setAttribute('x2', x2); el.setAttribute('y2', y2);
+    el.setAttribute('stroke', color);
+    el.setAttribute('stroke-width', '1.6');
+    if (dash)   el.setAttribute('stroke-dasharray', '5,3');
+    if (marker) el.setAttribute('marker-end', 'url(#' + marker + ')');
+    svg.appendChild(el);
+  }
 
-  const ax = aRect.left  - dRect.left;
-  const ay = aRect.top   - dRect.top + aRect.height / 2;
-  const rx = rRect.right - dRect.left;
-  const ry = rRect.top   - dRect.top + rRect.height / 2;
+  /** Append a <path> to an SVG element. */
+  function pt(svg, d, color, dash, marker) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    el.setAttribute('d', d);
+    el.setAttribute('stroke', color);
+    el.setAttribute('stroke-width', '1.6');
+    el.setAttribute('fill', 'none');
+    if (dash)   el.setAttribute('stroke-dasharray', '5,3');
+    if (marker) el.setAttribute('marker-end', 'url(#' + marker + ')');
+    svg.appendChild(el);
+  }
 
-  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible';
+  /** Append a <text> to an SVG element. */
+  function tx(svg, x, y, label, fill) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    el.setAttribute('x', x);
+    el.setAttribute('y', y);
+    el.setAttribute('fill', fill || '#8a9aae');
+    el.setAttribute('font-size', '10');
+    el.setAttribute('font-family', 'monospace');
+    el.textContent = label;
+    svg.appendChild(el);
+  }
 
-  // curved path: from right side of request node → to right edge of approval node
-  const mx = (ax + rx) / 2;
-  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-  const d = `M ${rx} ${ry} C ${rx+40} ${ry}, ${ax-40} ${ay}, ${ax} ${ay}`;
-  path.setAttribute('d', d);
-  path.setAttribute('stroke','#a78bfa');
-  path.setAttribute('stroke-width','1.5');
-  path.setAttribute('fill','none');
-  path.setAttribute('stroke-dasharray','5,3');
-  path.setAttribute('marker-end','url(#arr-purple)');
+  function draw() {
+    /* -- Branch: Login → Admin col | Employee col ----------------------- */
+    var svgB   = document.getElementById('svg-branch');
+    var login  = rel(document.getElementById('n-login'));
+    var adash  = rel(document.getElementById('n-admin-dash'));
+    var edash  = rel(document.getElementById('n-emp-dash'));
 
-  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
-  const marker = document.createElementNS('http://www.w3.org/2000/svg','marker');
-  marker.setAttribute('id','arr-purple');
-  marker.setAttribute('markerWidth','8');
-  marker.setAttribute('markerHeight','8');
-  marker.setAttribute('refX','4');
-  marker.setAttribute('refY','3');
-  marker.setAttribute('orient','auto');
-  const mp = document.createElementNS('http://www.w3.org/2000/svg','path');
-  mp.setAttribute('d','M0,0 L0,6 L7,3 z');
-  mp.setAttribute('fill','#a78bfa');
-  marker.appendChild(mp);
-  defs.appendChild(marker);
-  svg.appendChild(defs);
-  svg.appendChild(path);
+    svgB.innerHTML = '';
+    ln(svgB, login.cx, 0,       login.cx, 22,  '#8a9aae');
+    ln(svgB, adash.cx, 22,      edash.cx, 22,  '#8a9aae');
+    ln(svgB, adash.cx, 22,      adash.cx, 52,  '#4a90d9', false, 'm-admin');
+    ln(svgB, edash.cx, 22,      edash.cx, 52,  '#34a36a', false, 'm-emp');
+    tx(svgB, adash.cx - 40, 18, '管理者ロール');
+    tx(svgB, edash.cx + 4,  18, '従業員ロール');
 
-  diagram.style.position = 'relative';
-  diagram.appendChild(svg);
-});
+    /* -- Approval flow: Request node ─╮ → Approval node ---------------- */
+    var nReq = document.getElementById('n-request');
+    var nApp = document.getElementById('n-approval');
+    var diag = document.getElementById('diagram');
+    var rq   = rel(nReq);
+    var ap   = rel(nApp);
+
+    var svgFlow = document.getElementById('svg-flow');
+    if (!svgFlow) {
+      svgFlow = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svgFlow.id = 'svg-flow';
+      svgFlow.setAttribute('aria-hidden', 'true');
+      svgFlow.style.cssText =
+        'position:absolute;top:0;left:0;width:100%;height:100%;' +
+        'pointer-events:none;overflow:visible;';
+      diag.style.position = 'relative';
+      diag.appendChild(svgFlow);
+    }
+
+    svgFlow.innerHTML =
+      '<defs>' +
+      '<marker id="m-purple2" markerWidth="8" markerHeight="8" refX="3.5" refY="3" orient="auto">' +
+      '<path d="M0,0 L0,6 L7,3 z" fill="#6d28d9"/>' +
+      '</marker>' +
+      '</defs>';
+
+    var pad = 36;
+    var mx  = Math.max(rq.right, ap.right) + pad;
+    pt(
+      svgFlow,
+      'M ' + (rq.right + 4) + ' ' + rq.cy +
+      ' C ' + mx + ' ' + rq.cy + ', ' + mx + ' ' + ap.cy +
+      ', ' + (ap.right + 4) + ' ' + ap.cy,
+      '#6d28d9', true, 'm-purple2'
+    );
+
+    // Label pill
+    var ly  = (rq.cy + ap.cy) / 2;
+    var lx  = mx - 4;
+    var bg  = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    bg.setAttribute('x',      lx - 2);
+    bg.setAttribute('y',      ly - 11);
+    bg.setAttribute('width',  58);
+    bg.setAttribute('height', 15);
+    bg.setAttribute('rx',     4);
+    bg.setAttribute('fill',   '#f3effb');
+    bg.setAttribute('stroke', '#c4b5fd');
+    bg.setAttribute('stroke-width', '1');
+    svgFlow.appendChild(bg);
+    tx(svgFlow, lx, ly, '申請→承認', '#6d28d9');
+
+    /* -- Merge: Admin col + Employee col → Profile ---------------------- */
+    var svgM  = document.getElementById('svg-merge');
+    var colAR = rel(document.getElementById('col-admin'));
+    var colER = rel(document.getElementById('col-emp'));
+    var profR = rel(document.getElementById('n-profile'));
+
+    svgM.innerHTML = '';
+    ln(svgM, colAR.cx, 0,      colAR.cx, 16, '#8a9aae', true);
+    ln(svgM, colAR.cx, 16,     profR.cx, 16, '#8a9aae', true);
+    ln(svgM, profR.cx, 16,     profR.cx, 38, '#8a9aae', true, 'm-gray');
+    ln(svgM, colER.cx, 0,      colER.cx, 16, '#8a9aae', true);
+    ln(svgM, colER.cx, 16,     profR.cx, 16, '#8a9aae', true);
+
+    /* -- Profile → Logout ----------------------------------------------- */
+    var svgL  = document.getElementById('svg-logout');
+    var logCX = rel(document.getElementById('n-logout')).cx;
+
+    svgL.innerHTML = '';
+    ln(svgL, logCX, 0, logCX, 30, '#8a9aae', false, 'm-gray');
+  }
+
+  window.addEventListener('load', draw);
+  window.addEventListener('resize', draw);
+}());
 </script>
-
-<div class="export-note">勤怠管理システム 画面遷移図 · Attendance Management System Screen Flow</div>
-
 </body>
 </html>
