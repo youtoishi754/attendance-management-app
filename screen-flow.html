@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>飲食店向け勤怠管理システム — 画面遷移図</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
+      background: #f4f6fa;
+      color: #222;
+      padding: 32px 24px 64px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+      color: #1a1a2e;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 36px;
+    }
+
+    /* ── Legend ── */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: #444;
+    }
+    .legend-box {
+      width: 24px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
+    /* ── Layout columns ── */
+    .flow-root {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── Section headers ── */
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 6px 14px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    .section-employee .section-title { background: #dbeafe; color: #1d4ed8; }
+    .section-admin .section-title     { background: #fce7f3; color: #9d174d; }
+    .section-shared  .section-title   { background: #d1fae5; color: #065f46; }
+
+    /* ── Screen card ── */
+    .screen {
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .screen-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .screen-route {
+      font-size: 0.7rem;
+      font-family: "Courier New", monospace;
+      margin-bottom: 8px;
+      opacity: 0.75;
+    }
+    .screen-desc {
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: #444;
+    }
+    .screen-desc li { margin-left: 16px; }
+
+    /* colour variants */
+    .s-auth     { background: #fefce8; border: 1.5px solid #fde047; }
+    .s-employee { background: #eff6ff; border: 1.5px solid #93c5fd; }
+    .s-admin    { background: #fdf2f8; border: 1.5px solid #f9a8d4; }
+    .s-shared   { background: #f0fdf4; border: 1.5px solid #6ee7b7; }
+    .s-danger   { background: #fff7ed; border: 1.5px solid #fdba74; }
+
+    /* ── Method badge ── */
+    .badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-right: 4px;
+      vertical-align: middle;
+      letter-spacing: 0.04em;
+    }
+    .get  { background: #dcfce7; color: #166534; }
+    .post { background: #dbeafe; color: #1e40af; }
+    .put  { background: #fef9c3; color: #92400e; }
+    .del  { background: #fee2e2; color: #991b1b; }
+
+    /* ── Arrow connector ── */
+    .arrow {
+      text-align: center;
+      font-size: 1.3rem;
+      color: #aaa;
+      margin: 4px 0;
+      line-height: 1;
+    }
+    .arrow-label {
+      font-size: 0.7rem;
+      color: #888;
+      display: block;
+    }
+
+    /* ── Group box ── */
+    .group {
+      border: 1.5px dashed #d1d5db;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      background: rgba(255,255,255,0.6);
+    }
+    .group-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #6b7280;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Full-width shared section ── */
+    .section-full {
+      grid-column: 1 / -1;
+    }
+
+    /* ── Routing table ── */
+    .route-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      margin-top: 8px;
+    }
+    .route-table th {
+      background: #f1f5f9;
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 2px solid #e2e8f0;
+      font-size: 0.75rem;
+      color: #475569;
+    }
+    .route-table td {
+      padding: 7px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+    .route-table tr:hover td { background: #f8fafc; }
+    code {
+      font-family: "Courier New", monospace;
+      font-size: 0.85em;
+    }
+
+    /* ── Note box ── */
+    .note {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: #555;
+      margin-top: 10px;
+    }
+    .note strong { color: #b45309; }
+  </style>
+</head>
+<body>
+
+<h1>飲食店向け勤怠管理システム — 画面遷移図</h1>
+<p class="subtitle">ターゲット：小規模飲食店（従業員〜10名）| ロール：従業員 / 管理者（店長）</p>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-box" style="background:#fefce8;border:1.5px solid #fde047"></div>認証系</div>
+  <div class="legend-item"><div class="legend-box" style="background:#eff6ff;border:1.5px solid #93c5fd"></div>従業員専用</div>
+  <div class="legend-item"><div class="legend-box" style="background:#fdf2f8;border:1.5px solid #f9a8d4"></div>管理者専用</div>
+  <div class="legend-item"><div class="legend-box" style="background:#f0fdf4;border:1.5px solid #6ee7b7"></div>共通（両ロール）</div>
+  <div class="legend-item"><div class="legend-box" style="background:#fff7ed;border:1.5px solid #fdba74"></div>非推奨・要注意</div>
+  <span class="legend-item"><span class="badge get">GET</span>画面取得</span>
+  <span class="legend-item"><span class="badge post">POST</span>登録・送信</span>
+  <span class="legend-item"><span class="badge put">PUT</span>更新</span>
+  <span class="legend-item"><span class="badge del">DEL</span>削除</span>
+</div>
+
+<div class="flow-root">
+
+  <!-- ════════════════════════ SHARED: 未認証 ════════════════════════ -->
+  <div class="section-full">
+    <div class="section-shared">
+      <span class="section-title">共通 — 未認証</span>
+    </div>
+    <div class="group" style="max-width:340px;margin:0 auto;">
+      <div class="group-label">エントリーポイント</div>
+
+      <div class="screen s-auth">
+        <div class="screen-title">ログイン画面</div>
+        <div class="screen-route"><span class="badge get">GET</span>/login</div>
+        <ul class="screen-desc">
+          <li>メールアドレス ＋ パスワード入力</li>
+          <li>ロール自動判定（employees / admins）</li>
+          <li>未ログイン時は全ページここへリダイレクト</li>
+        </ul>
+      </div>
+      <div class="arrow">↓ <span class="arrow-label"><span class="badge post">POST</span>/login — 認証成功</span></div>
+      <div style="display:flex;gap:16px;justify-content:center;">
+        <div style="text-align:center;flex:1;">
+          <div class="screen s-employee" style="text-align:left;">
+            <div class="screen-title">出退勤ダッシュボード</div>
+            <div class="screen-route"><span class="badge get">GET</span>/attendance</div>
+            <ul class="screen-desc">
+              <li>打刻ボタン（出勤 / 退勤 / 休憩）</li>
+              <li>今日の打刻状況</li>
+            </ul>
+          </div>
+          <div style="font-size:0.72rem;color:#1d4ed8;margin-top:4px;">← 従業員</div>
+        </div>
+        <div style="text-align:center;flex:1;">
+          <div class="screen s-admin" style="text-align:left;">
+            <div class="screen-title">管理者ダッシュボード</div>
+            <div class="screen-route"><span class="badge get">GET</span>/admin/dashboard</div>
+            <ul class="screen-desc">
+              <li>承認待ち申請件数</li>
+              <li>今月の集計サマリ</li>
+            </ul>
+          </div>
+          <div style="font-size:0.72rem;color:#9d174d;margin-top:4px;">← 管理者</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════ 従業員フロー ════════════════════════ -->
+  <div class="section-employee">
+    <span class="section-title">従業員フロー</span>
+
+    <!-- 打刻 -->
+    <div class="group">
+      <div class="group-label">① 打刻</div>
+
+      <div class="screen s-employee">
+        <div class="screen-title">出退勤ダッシュボード</div>
+        <div class="screen-route"><span class="badge get">GET</span>/attendance</div>
+        <ul class="screen-desc">
+          <li>現在の打刻状態を大きく表示（スマホ最優先）</li>
+          <li>出勤ボタン → <span class="badge post">POST</span>/attendance/clock-in</li>
+          <li>退勤ボタン → <span class="badge post">POST</span>/attendance/clock-out</li>
+          <li>休憩開始 → <span class="badge post">POST</span>/attendance/break-start</li>
+          <li>休憩終了 → <span class="badge post">POST</span>/attendance/break-end</li>
+          <li>完了後：同画面にリダイレクト（UX配慮）</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 勤怠確認 -->
+    <div class="group">
+      <div class="group-label">② 自分の勤怠確認</div>
+
+      <div class="screen s-employee">
+        <div class="screen-title">月別勤怠一覧（自分）</div>
+        <div class="screen-route"><span class="badge get">GET</span>/attendance/history?month=YYYY-MM</div>
+        <ul class="screen-desc">
+          <li>月選択（デフォルト：当月）</li>
+          <li>日付・出勤・退勤・休憩・実働時間 一覧</li>
+          <li>月間合計実働時間を表示</li>
+        </ul>
+      </div>
+      <div class="arrow">↓ <span class="arrow-label">修正申請ボタン押下</span></div>
+
+      <!-- 修正申請 -->
+      <div class="screen s-employee">
+        <div class="screen-title">打刻修正申請フォーム</div>
+        <div class="screen-route">
+          <span class="badge get">GET</span>/attendance/{id}/correction/create<br>
+          <span class="badge post">POST</span>/attendance/{id}/correction
+        </div>
+        <ul class="screen-desc">
+          <li>修正後の出勤・退勤・休憩時刻を入力</li>
+          <li>修正理由の入力（必須）</li>
+          <li>申請後：一覧ページへリダイレクト＋完了メッセージ</li>
+        </ul>
+      </div>
+      <div class="arrow">↓ <span class="arrow-label">申請完了 → 一覧へ戻る</span></div>
+
+      <div class="screen s-employee">
+        <div class="screen-title">申請済み修正一覧（自分）</div>
+        <div class="screen-route"><span class="badge get">GET</span>/corrections</div>
+        <ul class="screen-desc">
+          <li>申請日・対象日・ステータス（審査中 / 承認 / 却下）</li>
+          <li>承認済みは一覧の実績に反映済みバッジ表示</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ログアウト -->
+    <div class="group">
+      <div class="group-label">③ ログアウト</div>
+      <div class="screen s-auth">
+        <div class="screen-title">ログアウト</div>
+        <div class="screen-route"><span class="badge post">POST</span>/logout</div>
+        <ul class="screen-desc">
+          <li>セッション破棄 → /login へリダイレクト</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════ 管理者フロー ════════════════════════ -->
+  <div class="section-admin">
+    <span class="section-title">管理者フロー（店長）</span>
+
+    <!-- 全体確認 -->
+    <div class="group">
+      <div class="group-label">① 全体勤怠確認</div>
+
+      <div class="screen s-admin">
+        <div class="screen-title">管理者ダッシュボード</div>
+        <div class="screen-route"><span class="badge get">GET</span>/admin/dashboard</div>
+        <ul class="screen-desc">
+          <li>承認待ち件数バッジ（修正申請）</li>
+          <li>当月の全員サマリ</li>
+          <li>各機能へのナビリンク</li>
+        </ul>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="screen s-admin">
+        <div class="screen-title">全従業員 月次勤怠一覧</div>
+        <div class="screen-route"><span class="badge get">GET</span>/admin/attendance?month=YYYY-MM</div>
+        <ul class="screen-desc">
+          <li>月選択フィルタ</li>
+          <li>従業員名・日付・出退勤・休憩・実働時間</li>
+          <li>CSV出力ボタン → <span class="badge get">GET</span>/admin/attendance/export?month=YYYY-MM</li>
+        </ul>
+      </div>
+      <div class="arrow">↓ <span class="arrow-label">従業員名クリック</span></div>
+
+      <div class="screen s-admin">
+        <div class="screen-title">従業員別月次詳細</div>
+        <div class="screen-route"><span class="badge get">GET</span>/admin/attendance/{user_id}?month=YYYY-MM</div>
+        <ul class="screen-desc">
+          <li>特定従業員の日別明細</li>
+          <li>月間合計時間</li>
+          <li>承認済み修正はハイライト表示</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 修正申請承認 -->
+    <div class="group">
+      <div class="group-label">② 修正申請 承認／却下</div>
+
+      <div class="screen s-admin">
+        <div class="screen-title">修正申請一覧</div>
+        <div class="screen-route"><span class="badge get">GET</span>/admin/corrections</div>
+        <ul class="screen-desc">
+          <li>審査中 / 承認済 / 却下済 タブ切り替え</li>
+          <li>申請者・対象日・修正内容・申請理由を一覧表示</li>
+        </ul>
+      </div>
+      <div class="arrow">↓ <span class="arrow-label">詳細ボタン押下</span></div>
+
+      <div class="screen s-admin">
+        <div class="screen-title">修正申請詳細 / 承認画面</div>
+        <div class="screen-route">
+          <span class="badge get">GET</span>/admin/corrections/{id}<br>
+          <span class="badge put">PUT</span>/admin/corrections/{id}/approve<br>
+          <span class="badge put">PUT</span>/admin/corrections/{id}/reject
+        </div>
+        <ul class="screen-desc">
+          <li>修正前後の比較表示</li>
+          <li>承認 / 却下ボタン → 処理後一覧へ戻る</li>
+          <li>承認履歴（処理日時・処理者）を保存</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 従業員管理 -->
+    <div class="group">
+      <div class="group-label">③ 従業員管理</div>
+
+      <div class="screen s-admin">
+        <div class="screen-title">従業員一覧</div>
+        <div class="screen-route"><span class="badge get">GET</span>/admin/users</div>
+        <ul class="screen-desc">
+          <li>有効従業員のみ表示（論理削除 del_flg=0）</li>
+          <li>従業員番号・氏名・メール</li>
+          <li>退職処理ボタン（= 論理削除）</li>
+        </ul>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div style="display:flex;gap:12px;">
+        <div style="flex:1;">
+          <div class="screen s-admin">
+            <div class="screen-title">従業員登録</div>
+            <div class="screen-route">
+              <span class="badge get">GET</span>/admin/users/create<br>
+              <span class="badge post">POST</span>/admin/users
+            </div>
+            <ul class="screen-desc">
+              <li>氏名・メール・初期PW・従業員番号</li>
+            </ul>
+          </div>
+        </div>
+        <div style="flex:1;">
+          <div class="screen s-danger">
+            <div class="screen-title">退職処理（論理削除）</div>
+            <div class="screen-route"><span class="badge put">PUT</span>/admin/users/{id}/deactivate</div>
+            <ul class="screen-desc">
+              <li>del_flg = 1 に更新</li>
+              <li>物理削除は行わない</li>
+              <li>CSV出力時も過去データ保持</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ログアウト -->
+    <div class="group">
+      <div class="group-label">④ ログアウト</div>
+      <div class="screen s-auth">
+        <div class="screen-title">ログアウト</div>
+        <div class="screen-route"><span class="badge post">POST</span>/logout</div>
+        <ul class="screen-desc">
+          <li>セッション破棄 → /login へリダイレクト</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════ ルーティング一覧表 ════════════════════════ -->
+  <div class="section-full">
+    <div class="section-shared">
+      <span class="section-title">ルーティング一覧</span>
+    </div>
+    <table class="route-table">
+      <thead>
+        <tr>
+          <th>メソッド</th>
+          <th>URI</th>
+          <th>コントローラ（案）</th>
+          <th>ロール</th>
+          <th>説明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="badge get">GET</span></td>  <td><code>/login</code></td>                                          <td>AuthController@showLogin</td>           <td>未認証</td>    <td>ログイン画面</td></tr>
+        <tr><td><span class="badge post">POST</span></td> <td><code>/login</code></td>                                          <td>AuthController@login</td>              <td>未認証</td>    <td>ログイン処理</td></tr>
+        <tr><td><span class="badge post">POST</span></td> <td><code>/logout</code></td>                                         <td>AuthController@logout</td>             <td>全員</td>      <td>ログアウト処理</td></tr>
+        <tr style="background:#eff6ff"><td><span class="badge get">GET</span></td>   <td><code>/attendance</code></td>                                  <td>AttendanceController@dashboard</td>    <td>従業員</td>    <td>打刻ダッシュボード</td></tr>
+        <tr style="background:#eff6ff"><td><span class="badge post">POST</span></td> <td><code>/attendance/clock-in</code></td>                        <td>AttendanceController@clockIn</td>      <td>従業員</td>    <td>出勤打刻</td></tr>
+        <tr style="background:#eff6ff"><td><span class="badge post">POST</span></td> <td><code>/attendance/clock-out</code></td>                       <td>AttendanceController@clockOut</td>     <td>従業員</td>    <td>退勤打刻</td></tr>
+        <tr style="background:#eff6ff"><td><span class="badge post">POST</span></td> <td><code>/attendance/break-start</code></td>                     <td>AttendanceController@breakStart</td>   <td>従業員</td>    <td>休憩開始</td></tr>
+        <tr style="background:#eff6ff"><td><span class="badge post">POST</span></td> <td><code>/attendance/break-end</code></td>                       <td>AttendanceController@breakEnd</td>     <td>従業員</td>    <td>休憩終了</td></tr>
+        <tr style="background:#eff6ff"><td><span class="badge get">GET</span></td>   <td><code>/attendance/history</code></td>                         <td>AttendanceController@history</td>      <td>従業員</td>    <td>自分の月別勤怠一覧</td></tr>
+        <tr style="background:#eff6ff"><td><span class="badge get">GET</span></td>   <td><code>/attendance/{id}/correction/create</code></td>          <td>CorrectionController@create</td>       <td>従業員</td>    <td>修正申請フォーム</td></tr>
+        <tr style="background:#eff6ff"><td><span class="badge post">POST</span></td> <td><code>/attendance/{id}/correction</code></td>                 <td>CorrectionController@store</td>        <td>従業員</td>    <td>修正申請送信</td></tr>
+        <tr style="background:#eff6ff"><td><span class="badge get">GET</span></td>   <td><code>/corrections</code></td>                                <td>CorrectionController@index</td>        <td>従業員</td>    <td>自分の申請一覧</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge get">GET</span></td>   <td><code>/admin/dashboard</code></td>                            <td>Admin\DashboardController@index</td>   <td>管理者</td>    <td>管理者ダッシュボード</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge get">GET</span></td>   <td><code>/admin/attendance</code></td>                           <td>Admin\AttendanceController@index</td>  <td>管理者</td>    <td>全従業員月次一覧</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge get">GET</span></td>   <td><code>/admin/attendance/export</code></td>                    <td>Admin\AttendanceController@export</td> <td>管理者</td>    <td>CSV出力</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge get">GET</span></td>   <td><code>/admin/attendance/{user_id}</code></td>                 <td>Admin\AttendanceController@show</td>   <td>管理者</td>    <td>従業員別月次詳細</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge get">GET</span></td>   <td><code>/admin/corrections</code></td>                          <td>Admin\CorrectionController@index</td>  <td>管理者</td>    <td>修正申請一覧</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge get">GET</span></td>   <td><code>/admin/corrections/{id}</code></td>                     <td>Admin\CorrectionController@show</td>   <td>管理者</td>    <td>申請詳細</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge put">PUT</span></td>   <td><code>/admin/corrections/{id}/approve</code></td>             <td>Admin\CorrectionController@approve</td><td>管理者</td>    <td>申請承認</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge put">PUT</span></td>   <td><code>/admin/corrections/{id}/reject</code></td>              <td>Admin\CorrectionController@reject</td> <td>管理者</td>    <td>申請却下</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge get">GET</span></td>   <td><code>/admin/users</code></td>                                <td>Admin\UserController@index</td>        <td>管理者</td>    <td>従業員一覧</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge get">GET</span></td>   <td><code>/admin/users/create</code></td>                         <td>Admin\UserController@create</td>       <td>管理者</td>    <td>従業員登録フォーム</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge post">POST</span></td> <td><code>/admin/users</code></td>                                <td>Admin\UserController@store</td>        <td>管理者</td>    <td>従業員登録</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge put">PUT</span></td>   <td><code>/admin/users/{id}/deactivate</code></td>                <td>Admin\UserController@deactivate</td>   <td>管理者</td>    <td>退職処理（論理削除）</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>設計上の注意点</strong><br>
+      ① <strong>パスワードリセット機能は意図的に省略</strong>しています。小規模店舗では管理者が従業員アカウントを直接管理することが現実的であり、リセット用メール送信インフラの複雑化を避けるためです。必要な場合は管理者によるパスワード再設定エンドポイント（PUT /admin/users/{id}/password）を追加検討してください。<br>
+      ② <strong>従業員の氏名・プロフィール編集は管理者専用</strong>としています。アルバイトが自由に情報変更できる構成は、給与計算ソフトとの従業員番号紐づけを壊すリスクがあるためです。<br>
+      ③ <strong>物理削除ルートは設けていません</strong>。del_flg による論理削除のみとし、CSV出力・過去勤怠データの整合性を保ちます。<br>
+      ④ <strong>打刻系は全て POST</strong> とし、ブラウザバックによる二重打刻を防ぐため、処理後は同画面への GET リダイレクト（PRGパターン）を採用します。
+    </div>
+  </div>
+
+</div><!-- /flow-root -->
+
+</body>
+</html>
