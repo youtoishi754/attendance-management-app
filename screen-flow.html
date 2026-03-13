@@ -292,8 +292,21 @@
         <div class="screen-route"><span class="badge get">GET</span>/attendance/history?month=YYYY-MM</div>
         <ul class="screen-desc">
           <li>月選択（デフォルト：当月）</li>
-          <li>日付・出勤・退勤・休憩・実働時間 一覧（各行＝日別の実働時間）</li>
-          <li>一覧下部に月間合計実働時間を表示</li>
+          <li>【日別】日付・出勤・退勤・休憩合計・実働時間 を行ごとに一覧表示</li>
+          <li>【月別】一覧下部に月間合計実働時間を表示</li>
+          <li>各行の日付リンクをクリック → 日別詳細ページへ遷移</li>
+        </ul>
+      </div>
+      <div class="arrow">↓ <span class="arrow-label">日付リンク押下</span></div>
+
+      <div class="screen s-employee">
+        <div class="screen-title">日別勤怠詳細（自分）</div>
+        <div class="screen-route"><span class="badge get">GET</span>/attendance/history/{date}</div>
+        <ul class="screen-desc">
+          <li>出勤・退勤時刻を表示</li>
+          <li>分割休憩を時系列で一覧表示（休憩1・休憩2 … 複数回対応）</li>
+          <li>休憩合計時間・実働時間を表示</li>
+          <li>修正申請ボタン → 打刻修正申請フォームへ遷移</li>
         </ul>
       </div>
       <div class="arrow">↓ <span class="arrow-label">修正申請ボタン押下</span></div>
@@ -306,9 +319,10 @@
           <span class="badge post">POST</span>/attendance/{id}/correction
         </div>
         <ul class="screen-desc">
-          <li>修正後の出勤・退勤・休憩時刻を入力</li>
+          <li>修正後の出勤・退勤時刻を入力</li>
+          <li>休憩記録を複数行で入力（行追加・削除 UI、分割休憩に対応）</li>
           <li>修正理由の入力（必須）</li>
-          <li>申請後：一覧ページへリダイレクト＋完了メッセージ</li>
+          <li>申請後：月別一覧ページへリダイレクト＋完了メッセージ</li>
         </ul>
       </div>
       <div class="arrow">↓ <span class="arrow-label">申請完了 → 一覧へ戻る</span></div>
@@ -486,6 +500,7 @@
         <tr style="background:#eff6ff"><td><span class="badge post">POST</span></td> <td><code>/attendance/break-start</code></td>                     <td>AttendanceController@breakStart</td>   <td>従業員</td>    <td>休憩開始</td></tr>
         <tr style="background:#eff6ff"><td><span class="badge post">POST</span></td> <td><code>/attendance/break-end</code></td>                       <td>AttendanceController@breakEnd</td>     <td>従業員</td>    <td>休憩終了</td></tr>
         <tr style="background:#eff6ff"><td><span class="badge get">GET</span></td>   <td><code>/attendance/history</code></td>                         <td>AttendanceController@history</td>      <td>従業員</td>    <td>自分の月別勤怠一覧</td></tr>
+        <tr style="background:#eff6ff"><td><span class="badge get">GET</span></td>   <td><code>/attendance/history/{date}</code></td>                  <td>AttendanceController@show</td>         <td>従業員</td>    <td>日別勤怠詳細（分割休憩一覧）</td></tr>
         <tr style="background:#eff6ff"><td><span class="badge get">GET</span></td>   <td><code>/attendance/{id}/correction/create</code></td>          <td>CorrectionController@create</td>       <td>従業員</td>    <td>修正申請フォーム</td></tr>
         <tr style="background:#eff6ff"><td><span class="badge post">POST</span></td> <td><code>/attendance/{id}/correction</code></td>                 <td>CorrectionController@store</td>        <td>従業員</td>    <td>修正申請送信</td></tr>
         <tr style="background:#eff6ff"><td><span class="badge get">GET</span></td>   <td><code>/corrections</code></td>                                <td>CorrectionController@index</td>        <td>従業員</td>    <td>自分の申請一覧</td></tr>
