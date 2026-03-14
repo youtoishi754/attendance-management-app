@@ -1,0 +1,286 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- Title -->
+    <mxCell id="title" value="概念ER図 — 飲食店向け勤怠管理システム（IE記法）" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="400" y="30" width="700" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- ===== ENTITIES ===== -->
+
+    <!-- ユーザー（従業員・管理者共通） -->
+    <mxCell id="E_USER" value="ユーザー" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+      <mxGeometry x="80" y="300" width="220" height="150" as="geometry" />
+    </mxCell>
+    <mxCell id="E_USER_R1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=1;" vertex="1" parent="E_USER">
+      <mxGeometry y="30" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_USER_R1L" value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="E_USER_R1">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_USER_R1R" value="ユーザーID" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_USER_R1">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_USER_R2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_USER">
+      <mxGeometry y="60" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_USER_R2L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_USER_R2">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_USER_R2R" value="氏名" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_USER_R2">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_USER_R3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_USER">
+      <mxGeometry y="90" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_USER_R3L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_USER_R3">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_USER_R3R" value="メールアドレス" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_USER_R3">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_USER_R4" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_USER">
+      <mxGeometry y="120" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_USER_R4L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_USER_R4">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_USER_R4R" value="ロール（従業員／管理者）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_USER_R4">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- 勤怠記録 -->
+    <mxCell id="E_ATT" value="勤怠記録" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="440" y="220" width="220" height="150" as="geometry" />
+    </mxCell>
+    <mxCell id="E_ATT_R1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=1;" vertex="1" parent="E_ATT">
+      <mxGeometry y="30" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_ATT_R1L" value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="E_ATT_R1">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_ATT_R1R" value="勤怠ID" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_ATT_R1">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_ATT_R2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_ATT">
+      <mxGeometry y="60" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_ATT_R2L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_ATT_R2">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_ATT_R2R" value="勤務日" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_ATT_R2">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_ATT_R3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_ATT">
+      <mxGeometry y="90" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_ATT_R3L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_ATT_R3">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_ATT_R3R" value="出勤日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_ATT_R3">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_ATT_R4" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_ATT">
+      <mxGeometry y="120" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_ATT_R4L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_ATT_R4">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_ATT_R4R" value="退勤日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_ATT_R4">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- 休憩記録 -->
+    <mxCell id="E_BRK" value="休憩記録" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="440" y="440" width="220" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="E_BRK_R1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=1;" vertex="1" parent="E_BRK">
+      <mxGeometry y="30" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_BRK_R1L" value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="E_BRK_R1">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_BRK_R1R" value="休憩ID" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_BRK_R1">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_BRK_R2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_BRK">
+      <mxGeometry y="60" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_BRK_R2L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_BRK_R2">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_BRK_R2R" value="休憩開始日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_BRK_R2">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_BRK_R3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_BRK">
+      <mxGeometry y="90" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_BRK_R3L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_BRK_R3">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_BRK_R3R" value="休憩終了日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_BRK_R3">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- 修正申請 -->
+    <mxCell id="E_COR" value="修正申請" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="800" y="220" width="220" height="180" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=1;" vertex="1" parent="E_COR">
+      <mxGeometry y="30" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R1L" value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="E_COR_R1">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R1R" value="申請ID" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_COR_R1">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_COR">
+      <mxGeometry y="60" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R2L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_COR_R2">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R2R" value="申請理由" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_COR_R2">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_COR">
+      <mxGeometry y="90" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R3L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_COR_R3">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R3R" value="ステータス（審査中／承認／却下）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_COR_R3">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R4" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_COR">
+      <mxGeometry y="120" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R4L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_COR_R4">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R4R" value="申請日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_COR_R4">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R5" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_COR">
+      <mxGeometry y="150" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R5L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_COR_R5">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_COR_R5R" value="処理日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_COR_R5">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- 修正申請休憩 -->
+    <mxCell id="E_CBRK" value="修正申請休憩" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="800" y="480" width="220" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="E_CBRK_R1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=1;" vertex="1" parent="E_CBRK">
+      <mxGeometry y="30" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_CBRK_R1L" value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="E_CBRK_R1">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_CBRK_R1R" value="修正休憩ID" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_CBRK_R1">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_CBRK_R2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_CBRK">
+      <mxGeometry y="60" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_CBRK_R2L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_CBRK_R2">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_CBRK_R2R" value="修正休憩開始日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_CBRK_R2">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_CBRK_R3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;top=0;left=0;right=0;bottom=0;" vertex="1" parent="E_CBRK">
+      <mxGeometry y="90" width="220" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_CBRK_R3L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_CBRK_R3">
+      <mxGeometry width="40" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="E_CBRK_R3R" value="修正休憩終了日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="E_CBRK_R3">
+      <mxGeometry x="40" width="180" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- ===== RELATIONSHIPS (IE Notation) ===== -->
+
+    <!-- rel: ユーザー 1-to-N 勤怠記録 -->
+    <mxCell id="R_USER_ATT" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="E_USER_R2" target="E_ATT_R2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="R_USER_ATT_L" value="記録する (1 : 0..N)" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=11;" vertex="1" connectable="0" parent="R_USER_ATT">
+      <mxGeometry x="-0.1" y="-1" relative="1" as="geometry">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell>
+
+    <!-- rel: 勤怠記録 1-to-N 休憩記録 -->
+    <mxCell id="R_ATT_BRK" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="E_ATT_R3" target="E_BRK_R2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="R_ATT_BRK_L" value="含む (1 : 0..N)" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=11;" vertex="1" connectable="0" parent="R_ATT_BRK">
+      <mxGeometry x="0.1" y="-1" relative="1" as="geometry">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell>
+
+    <!-- rel: 勤怠記録 1-to-N 修正申請 -->
+    <mxCell id="R_ATT_COR" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="E_ATT_R2" target="E_COR_R2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="R_ATT_COR_L" value="対象になる (1 : 0..N)" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=11;" vertex="1" connectable="0" parent="R_ATT_COR">
+      <mxGeometry x="-0.1" y="-1" relative="1" as="geometry">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell>
+
+    <!-- rel: ユーザー 1-to-N 修正申請（申請者） -->
+    <mxCell id="R_USER_COR" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1" source="E_USER_R3" target="E_COR_R3">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="360" y="385" />
+          <mxPoint x="360" y="310" />
+          <mxPoint x="740" y="310" />
+          <mxPoint x="740" y="336" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="R_USER_COR_L" value="申請する (1 : 0..N)" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=11;" vertex="1" connectable="0" parent="R_USER_COR">
+      <mxGeometry x="-0.1" y="-1" relative="1" as="geometry">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell>
+
+    <!-- rel: ユーザー 0or1-to-N 修正申請（承認者） -->
+    <mxCell id="R_USER_COR2" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERoneToMany;exitX=1;exitY=0.7;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;curved=1;dashed=1;" edge="1" parent="1" source="E_USER_R4" target="E_COR_R4">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="370" y="415" />
+          <mxPoint x="370" y="680" />
+          <mxPoint x="740" y="680" />
+          <mxPoint x="740" y="385" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="R_USER_COR2_L" value="承認する【管理者のみ】(0..1 : 0..N)" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=11;" vertex="1" connectable="0" parent="R_USER_COR2">
+      <mxGeometry x="0" y="-1" relative="1" as="geometry">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell>
+
+    <!-- rel: 修正申請 1-to-N 修正申請休憩 -->
+    <mxCell id="R_COR_CBRK" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="E_COR_R4" target="E_CBRK_R2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="R_COR_CBRK_L" value="含む (1 : 0..N)" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=11;" vertex="1" connectable="0" parent="R_COR_CBRK">
+      <mxGeometry x="0.1" y="-1" relative="1" as="geometry">
+        <mxPoint as="offset" />
+      </mxGeometry>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

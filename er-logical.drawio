@@ -1,0 +1,271 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- Title -->
+    <mxCell id="title" value="論理ER図 — 飲食店向け勤怠管理システム（IE記法）" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="400" y="20" width="750" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- ===== users ===== -->
+    <mxCell id="T_USR" value="ユーザー" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+      <mxGeometry x="60" y="160" width="260" height="270" as="geometry" />
+    </mxCell>
+    <!-- id -->
+    <mxCell id="USR_R1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="T_USR">
+      <mxGeometry y="30" width="260" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="USR_R1L" value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="USR_R1"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="USR_R1R" value="ID : 整数" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R1"><mxGeometry x="50" width="210" height="30" as="geometry" /></mxCell>
+    <!-- employee_no -->
+    <mxCell id="USR_R2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_USR">
+      <mxGeometry y="60" width="260" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="USR_R2L" value="UQ" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=2;overflow=hidden;" vertex="1" parent="USR_R2"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="USR_R2R" value="従業員番号 : 文字列(20)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R2"><mxGeometry x="50" width="210" height="30" as="geometry" /></mxCell>
+    <!-- name -->
+    <mxCell id="USR_R3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_USR">
+      <mxGeometry y="90" width="260" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="USR_R3L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R3"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="USR_R3R" value="氏名 : 文字列(100)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R3"><mxGeometry x="50" width="210" height="30" as="geometry" /></mxCell>
+    <!-- email -->
+    <mxCell id="USR_R4" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_USR">
+      <mxGeometry y="120" width="260" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="USR_R4L" value="UQ" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=2;overflow=hidden;" vertex="1" parent="USR_R4"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="USR_R4R" value="メールアドレス : 文字列(255)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R4"><mxGeometry x="50" width="210" height="30" as="geometry" /></mxCell>
+    <!-- password -->
+    <mxCell id="USR_R5" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_USR">
+      <mxGeometry y="150" width="260" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="USR_R5L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R5"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="USR_R5R" value="パスワード（ハッシュ） : 文字列(255)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R5"><mxGeometry x="50" width="210" height="30" as="geometry" /></mxCell>
+    <!-- role -->
+    <mxCell id="USR_R6" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_USR">
+      <mxGeometry y="180" width="260" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="USR_R6L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R6"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="USR_R6R" value="ロール : 区分値（従業員／管理者）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R6"><mxGeometry x="50" width="210" height="30" as="geometry" /></mxCell>
+    <!-- del_flg -->
+    <mxCell id="USR_R7" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_USR">
+      <mxGeometry y="210" width="260" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="USR_R7L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R7"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="USR_R7R" value="削除フラグ : 真偽値（0=有効, 1=削除）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R7"><mxGeometry x="50" width="210" height="30" as="geometry" /></mxCell>
+    <!-- timestamps -->
+    <mxCell id="USR_R8" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_USR">
+      <mxGeometry y="240" width="260" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="USR_R8L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R8"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="USR_R8R" value="作成日時 / 更新日時 : 日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R8"><mxGeometry x="50" width="210" height="30" as="geometry" /></mxCell>
+
+    <!-- ===== attendances ===== -->
+    <mxCell id="T_ATT" value="勤怠記録" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="440" y="100" width="280" height="270" as="geometry" />
+    </mxCell>
+    <mxCell id="ATT_R1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="T_ATT">
+      <mxGeometry y="30" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="ATT_R1L" value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="ATT_R1"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R1R" value="ID : 整数" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="ATT_R1"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_ATT">
+      <mxGeometry y="60" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="ATT_R2L" value="FK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=3;overflow=hidden;" vertex="1" parent="ATT_R2"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R2R" value="ユーザーID : 整数" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="ATT_R2"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_ATT">
+      <mxGeometry y="90" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="ATT_R3L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="ATT_R3"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R3R" value="勤務日 : 日付" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="ATT_R3"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R4" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_ATT">
+      <mxGeometry y="120" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="ATT_R4L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="ATT_R4"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R4R" value="出勤日時 : 日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="ATT_R4"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R5" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_ATT">
+      <mxGeometry y="150" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="ATT_R5L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="ATT_R5"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R5R" value="退勤日時 : 日時（NULL可）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="ATT_R5"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R6" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_ATT">
+      <mxGeometry y="180" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="ATT_R6L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="ATT_R6"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R6R" value="打刻状態 : 区分値（勤務中／休憩中／退勤済）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="ATT_R6"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R7" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_ATT">
+      <mxGeometry y="210" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="ATT_R7L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="ATT_R7"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="ATT_R7R" value="作成日時 / 更新日時 : 日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="ATT_R7"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <!-- UQ note -->
+    <mxCell id="ATT_UQ_NOTE" value="UQ(ユーザーID, 勤務日)" style="text;html=1;strokeColor=none;fillColor=#f5f5f5;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="440" y="375" width="200" height="20" as="geometry" />
+    </mxCell>
+
+    <!-- ===== breaks ===== -->
+    <mxCell id="T_BRK" value="休憩記録" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="440" y="430" width="280" height="180" as="geometry" />
+    </mxCell>
+    <mxCell id="BRK_R1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="T_BRK">
+      <mxGeometry y="30" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="BRK_R1L" value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="BRK_R1"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="BRK_R1R" value="ID : 整数" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="BRK_R1"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="BRK_R2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_BRK">
+      <mxGeometry y="60" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="BRK_R2L" value="FK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=3;overflow=hidden;" vertex="1" parent="BRK_R2"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="BRK_R2R" value="勤怠記録ID : 整数" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="BRK_R2"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="BRK_R3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_BRK">
+      <mxGeometry y="90" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="BRK_R3L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="BRK_R3"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="BRK_R3R" value="休憩開始日時 : 日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="BRK_R3"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="BRK_R4" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_BRK">
+      <mxGeometry y="120" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="BRK_R4L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="BRK_R4"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="BRK_R4R" value="休憩終了日時 : 日時（NULL可）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="BRK_R4"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="BRK_R5" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_BRK">
+      <mxGeometry y="150" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="BRK_R5L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="BRK_R5"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="BRK_R5R" value="作成日時 / 更新日時 : 日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="BRK_R5"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+
+    <!-- ===== correction_requests ===== -->
+    <mxCell id="T_COR" value="修正申請" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="840" y="80" width="310" height="330" as="geometry" />
+    </mxCell>
+    <mxCell id="COR_R1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="T_COR">
+      <mxGeometry y="30" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="COR_R1L" value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="COR_R1"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R1R" value="ID : 整数" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R1"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_COR">
+      <mxGeometry y="60" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="COR_R2L" value="FK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=3;overflow=hidden;" vertex="1" parent="COR_R2"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R2R" value="勤怠記録ID : 整数" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R2"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_COR">
+      <mxGeometry y="90" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="COR_R3L" value="FK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=3;overflow=hidden;" vertex="1" parent="COR_R3"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R3R" value="申請者ID : 整数" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R3"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R4" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_COR">
+      <mxGeometry y="120" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="COR_R4L" value="FK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=3;overflow=hidden;" vertex="1" parent="COR_R4"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R4R" value="承認者ID : 整数（NULL可）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R4"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R5" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_COR">
+      <mxGeometry y="150" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="COR_R5L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R5"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R5R" value="修正出勤日時 : 日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R5"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R6" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_COR">
+      <mxGeometry y="180" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="COR_R6L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R6"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R6R" value="修正退勤日時 : 日時（NULL可）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R6"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R7" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_COR">
+      <mxGeometry y="210" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="COR_R7L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R7"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R7R" value="修正理由 : テキスト" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R7"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R8" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_COR">
+      <mxGeometry y="240" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="COR_R8L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R8"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R8R" value="申請状態 : 区分値（審査中／承認済／却下済）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R8"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R9" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_COR">
+      <mxGeometry y="270" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="COR_R9L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R9"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="COR_R9R" value="承認日時 / 作成日時 / 更新日時 : 日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="COR_R9"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+
+    <!-- ===== correction_breaks ===== -->
+    <mxCell id="T_CBRK" value="修正申請休憩" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="840" y="490" width="310" height="180" as="geometry" />
+    </mxCell>
+    <mxCell id="CBRK_R1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="T_CBRK">
+      <mxGeometry y="30" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="CBRK_R1L" value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="CBRK_R1"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="CBRK_R1R" value="ID : 整数" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="CBRK_R1"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+    <mxCell id="CBRK_R2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_CBRK">
+      <mxGeometry y="60" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="CBRK_R2L" value="FK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=3;overflow=hidden;" vertex="1" parent="CBRK_R2"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="CBRK_R2R" value="修正申請ID : 整数" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="CBRK_R2"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+    <mxCell id="CBRK_R3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_CBRK">
+      <mxGeometry y="90" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="CBRK_R3L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="CBRK_R3"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="CBRK_R3R" value="休憩開始日時 : 日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="CBRK_R3"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+    <mxCell id="CBRK_R4" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_CBRK">
+      <mxGeometry y="120" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="CBRK_R4L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="CBRK_R4"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="CBRK_R4R" value="休憩終了日時 : 日時（NULL可）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="CBRK_R4"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+    <mxCell id="CBRK_R5" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_CBRK">
+      <mxGeometry y="150" width="310" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="CBRK_R5L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="CBRK_R5"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="CBRK_R5R" value="作成日時 / 更新日時 : 日時" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="CBRK_R5"><mxGeometry x="50" width="260" height="30" as="geometry" /></mxCell>
+
+    <!-- ===== RELATIONSHIPS ===== -->
+
+    <!-- rel: users 1-to-N attendances (user_id) -->
+    <mxCell id="R_USR_ATT" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="USR_R1" target="ATT_R2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- rel: attendances 1-to-N breaks (attendance_id) -->
+    <mxCell id="R_ATT_BRK" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ATT_R5" target="BRK_R2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- rel: attendances 1-to-N correction_requests (attendance_id) -->
+    <mxCell id="R_ATT_COR" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="ATT_R3" target="COR_R2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- rel: users 1-to-N correction_requests (applicant_id) -->
+    <mxCell id="R_USR_COR_APPL" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1" source="USR_R2" target="COR_R3">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="380" y="205" />
+          <mxPoint x="380" y="180" />
+          <mxPoint x="780" y="180" />
+          <mxPoint x="780" y="207" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="R_USR_COR_APPL_L" value="申請者" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="R_USR_COR_APPL">
+      <mxGeometry x="-0.1" y="-1" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+    </mxCell>
+
+    <!-- rel: users 0or1-to-N correction_requests (approver_id) -->
+    <mxCell id="R_USR_COR_APPR" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERzeroToOne;exitX=1;exitY=0.7;exitDx=0;exitDy=0;entryX=0;entryY=0.4;entryDx=0;entryDy=0;curved=1;dashed=1;" edge="1" parent="1" source="USR_R6" target="COR_R4">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="390" y="296" />
+          <mxPoint x="390" y="700" />
+          <mxPoint x="790" y="700" />
+          <mxPoint x="790" y="242" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="R_USR_COR_APPR_L" value="承認者（管理者のみ）" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="R_USR_COR_APPR">
+      <mxGeometry x="0" y="-1.2" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+    </mxCell>
+
+    <!-- rel: correction_requests 1-to-N correction_breaks -->
+    <mxCell id="R_COR_CBRK" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="COR_R8" target="CBRK_R2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>
