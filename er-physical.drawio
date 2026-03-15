@@ -218,7 +218,7 @@
     </mxCell>
 
     <!-- rel: attendances 1-to-N breaks -->
-    <mxCell id="R_ATT_BRK" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ATT_co" target="BRK_aid">
+    <mxCell id="R_ATT_BRK" value="" style="edgeStyle=none;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="T_ATT" target="T_BRK">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
 
@@ -258,7 +258,7 @@
     </mxCell>
 
     <!-- rel: correction_requests 1-to-N correction_breaks -->
-    <mxCell id="R_COR_CBRK" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="COR_st" target="CBRK_cid">
+    <mxCell id="R_COR_CBRK" value="" style="edgeStyle=none;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="T_COR" target="T_CBRK">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
 

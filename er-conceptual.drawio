@@ -219,7 +219,7 @@
     </mxCell>
 
     <!-- rel: 勤怠記録 1-to-N 休憩記録 -->
-    <mxCell id="R_ATT_BRK" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="E_ATT_R3" target="E_BRK_R2">
+    <mxCell id="R_ATT_BRK" value="" style="edgeStyle=none;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="E_ATT" target="E_BRK">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
     <mxCell id="R_ATT_BRK_L" value="含む (1 : 0..N)" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=11;" vertex="1" connectable="0" parent="R_ATT_BRK">
@@ -273,7 +273,7 @@
     </mxCell>
 
     <!-- rel: 修正申請 1-to-N 修正申請休憩 -->
-    <mxCell id="R_COR_CBRK" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="E_COR_R4" target="E_CBRK_R2">
+    <mxCell id="R_COR_CBRK" value="" style="edgeStyle=none;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="E_COR" target="E_CBRK">
       <mxGeometry relative="1" as="geometry" />
     </mxCell>
     <mxCell id="R_COR_CBRK_L" value="含む (1 : 0..N)" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=11;" vertex="1" connectable="0" parent="R_COR_CBRK">
