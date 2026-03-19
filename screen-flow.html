@@ -259,6 +259,42 @@
         </div>
       </div>
     </div>
+
+    <div class="group" style="max-width:660px;margin:16px auto 0;">
+      <div class="group-label">パスワード設定・再設定（IP制限対象外 — 個人スマートフォンから利用）</div>
+      <div style="display:flex;gap:16px;">
+        <div style="flex:1;">
+          <div class="screen s-auth">
+            <div class="screen-title">初回パスワード設定</div>
+            <div class="screen-route">
+              <span class="badge get">GET</span>/password/setup?token=...<br>
+              <span class="badge post">POST</span>/password/setup
+            </div>
+            <ul class="screen-desc">
+              <li>管理者が従業員登録時に送信したトークン付きリンクからアクセス</li>
+              <li>ワンタイムトークン（有効期限24時間・使用後無効化）</li>
+              <li>新しいパスワードを設定 → /login へリダイレクト</li>
+            </ul>
+          </div>
+        </div>
+        <div style="flex:1;">
+          <div class="screen s-auth">
+            <div class="screen-title">パスワード再設定</div>
+            <div class="screen-route">
+              <span class="badge get">GET</span>/password/reset<br>
+              <span class="badge post">POST</span>/password/reset<br>
+              <span class="badge get">GET</span>/password/reset/{token}<br>
+              <span class="badge post">POST</span>/password/reset/{token}
+            </div>
+            <ul class="screen-desc">
+              <li>メールアドレス入力 → リセットリンクをメール送信</li>
+              <li>ワンタイムトークン（有効期限24時間・使用後無効化）</li>
+              <li>新パスワード入力 → 設定完了後 /login へリダイレクト</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ════════════════════════ 従業員フロー ════════════════════════ -->
@@ -446,7 +482,9 @@
               <span class="badge post">POST</span>/admin/users
             </div>
             <ul class="screen-desc">
-              <li>氏名・メール・初期PW・従業員番号</li>
+              <li>氏名・メール・従業員番号を入力</li>
+              <li>登録後、パスワード設定用リンクをメール自動送信</li>
+              <li>管理者はパスワードを保持しない</li>
             </ul>
           </div>
         </div>
@@ -518,12 +556,18 @@
         <tr style="background:#fdf2f8"><td><span class="badge get">GET</span></td>   <td><code>/admin/users/create</code></td>                         <td>Admin\UserController@create</td>       <td>管理者</td>    <td>従業員登録フォーム</td></tr>
         <tr style="background:#fdf2f8"><td><span class="badge post">POST</span></td> <td><code>/admin/users</code></td>                                <td>Admin\UserController@store</td>        <td>管理者</td>    <td>従業員登録</td></tr>
         <tr style="background:#fdf2f8"><td><span class="badge put">PUT</span></td>   <td><code>/admin/users/{id}/deactivate</code></td>                <td>Admin\UserController@deactivate</td>   <td>管理者</td>    <td>退職処理（論理削除）</td></tr>
+        <tr style="background:#fefce8"><td><span class="badge get">GET</span></td>   <td><code>/password/setup</code></td>                                <td>PasswordSetupController@show</td>      <td>未認証（IP制限外）</td><td>初回パスワード設定フォーム</td></tr>
+        <tr style="background:#fefce8"><td><span class="badge post">POST</span></td> <td><code>/password/setup</code></td>                                <td>PasswordSetupController@store</td>     <td>未認証（IP制限外）</td><td>初回パスワード設定処理</td></tr>
+        <tr style="background:#fefce8"><td><span class="badge get">GET</span></td>   <td><code>/password/reset</code></td>                                <td>PasswordResetController@showRequest</td><td>未認証（IP制限外）</td><td>パスワード再設定依頼フォーム</td></tr>
+        <tr style="background:#fefce8"><td><span class="badge post">POST</span></td> <td><code>/password/reset</code></td>                                <td>PasswordResetController@sendLink</td>  <td>未認証（IP制限外）</td><td>再設定メール送信</td></tr>
+        <tr style="background:#fefce8"><td><span class="badge get">GET</span></td>   <td><code>/password/reset/{token}</code></td>                        <td>PasswordResetController@showReset</td> <td>未認証（IP制限外）</td><td>新パスワード入力フォーム</td></tr>
+        <tr style="background:#fefce8"><td><span class="badge post">POST</span></td> <td><code>/password/reset/{token}</code></td>                        <td>PasswordResetController@reset</td>     <td>未認証（IP制限外）</td><td>パスワード更新処理</td></tr>
       </tbody>
     </table>
 
     <div class="note">
       <strong>設計上の注意点</strong><br>
-      ① <strong>パスワードリセット機能は意図的に省略</strong>しています。小規模店舗では管理者が従業員アカウントを直接管理することが現実的であり、リセット用メール送信インフラの複雑化を避けるためです。必要な場合は管理者によるパスワード再設定エンドポイント（PUT /admin/users/{id}/password）を追加検討してください。<br>
+      ① <strong>パスワード設定・再設定画面はIP制限対象外</strong>です。個人スマートフォンからアクセス可能とするため、<code>/password/setup</code> および <code>/password/reset</code> 系エンドポイントはIPフィルタを適用しません。トークンはワンタイム・有効期限付き（24時間）・使用後無効化とします。管理者は従業員登録時にパスワードを設定せず、トークン付き設定リンクをメール送信します。<br>
       ② <strong>従業員の氏名・プロフィール編集は管理者専用</strong>としています。アルバイトが自由に情報変更できる構成は、給与計算ソフトとの従業員番号紐づけを壊すリスクがあるためです。<br>
       ③ <strong>物理削除ルートは設けていません</strong>。del_flg による論理削除のみとし、CSV出力・過去勤怠データの整合性を保ちます。<br>
       ④ <strong>打刻系は全て POST</strong> とし、ブラウザバックによる二重打刻を防ぐため、処理後は同画面への GET リダイレクト（PRGパターン）を採用します。<br>
