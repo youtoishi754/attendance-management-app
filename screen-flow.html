@@ -396,11 +396,10 @@
         <div class="screen-route"><span class="badge get">GET</span>/attendance</div>
         <ul class="screen-desc">
           <li>現在の打刻状態を大きく表示（スマホ最優先）</li>
-          <li>出勤ボタン → <span class="badge post">POST</span>/attendance/clock-in</li>
-          <li>退勤ボタン → <span class="badge post">POST</span>/attendance/clock-out</li>
-          <li>休憩開始 → <span class="badge post">POST</span>/attendance/break-start</li>
-          <li>休憩終了 → <span class="badge post">POST</span>/attendance/break-end</li>
-          <li>完了後：同画面にリダイレクト（UX配慮）</li>
+          <li>出勤ボタン → <span class="badge post">POST</span>/attendance/clock-in　→ <strong>打刻完了後は自動ログアウト</strong> → /login へリダイレクト</li>
+          <li>退勤ボタン → <span class="badge post">POST</span>/attendance/clock-out　→ <strong>打刻完了後は自動ログアウト</strong> → /login へリダイレクト</li>
+          <li>休憩開始 → <span class="badge post">POST</span>/attendance/break-start　→ 完了後：同画面にリダイレクト（UX配慮）</li>
+          <li>休憩終了 → <span class="badge post">POST</span>/attendance/break-end　→ 完了後：同画面にリダイレクト（UX配慮）</li>
           <li>【日またぎ考慮】退勤打刻時刻が出勤時刻より小さい（深夜帯退勤）場合は <code>clock_out</code> の日付を翌日に自動補正し、差分から正しく実働時間を算出する。勤務日は出勤打刻日（JST）で管理する</li>
         </ul>
       </div>
@@ -659,7 +658,7 @@
       ① <strong>パスワード設定・再設定画面はIP制限対象外</strong>です。個人スマートフォンからアクセス可能とするため、<code>/password/setup</code> および <code>/password/reset</code> 系エンドポイントはIPフィルタを適用しません。トークンはワンタイム・有効期限付き（24時間）・使用後無効化とします。管理者は従業員登録時にパスワードを設定せず、トークン付き設定リンクをメール送信します。<br>
       ② <strong>従業員の氏名・プロフィール編集は管理者専用</strong>としています。アルバイトが自由に情報変更できる構成は、給与計算ソフトとの従業員番号紐づけを壊すリスクがあるためです。<br>
       ③ <strong>物理削除ルートは設けていません</strong>。del_flg による論理削除のみとし、CSV出力・過去勤怠データの整合性を保ちます。<br>
-      ④ <strong>打刻系は全て POST</strong> とし、ブラウザバックによる二重打刻を防ぐため、処理後は同画面への GET リダイレクト（PRGパターン）を採用します。<br>
+      ④ <strong>打刻系は全て POST</strong>（PRGパターン）とし、ブラウザバックによる二重打刻を防ぎます。リダイレクト先は操作によって異なり、<strong>出勤・退勤打刻の完了後は自動ログアウトして /login へ</strong>リダイレクト、休憩開始・終了の完了後は同画面（/attendance）への GET リダイレクトを行います。<br>
       ⑤ <strong>日をまたぐ勤務（深夜帯シフト）への対応</strong>：<code>clock_in</code> / <code>clock_out</code> は <code>datetime</code> 型で保持し、退勤が翌日になる場合は <code>clock_out</code> の日付部分を翌日に補正して記録します。勤務日の基準は<strong>出勤打刻日（JST）</strong>とし、月別集計・CSV 出力もこの基準で行います。日別詳細画面では翌日退勤の場合「翌日」ラベルを表示します。修正申請フォームでも退勤時刻が出勤時刻より早い入力を許容し、同様の翌日補正ロジックを適用します。<br>
       ⑥ <strong>セッションタイムアウトによる自動ログアウト</strong>：一定時間（例：15分）操作がない場合、サーバ側でセッションを破棄し <code>/login</code> へリダイレクトします。Laravelのセッション設定（<code>session.lifetime</code>）で制御します。タイムアウト時はログイン画面に「セッションがタイムアウトしました」メッセージを表示します。
     </div>
