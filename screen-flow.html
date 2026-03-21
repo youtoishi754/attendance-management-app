@@ -280,6 +280,7 @@
               <li>管理者が従業員登録時に送信したトークン付きリンクからアクセス</li>
               <li>ワンタイムトークン（有効期限24時間・使用後無効化）</li>
               <li>新しいパスワードを設定 → /login へリダイレクト</li>
+              <li>無効・期限切れトークンの場合 → エラーページを表示（管理者への再発行依頼を促す）</li>
             </ul>
           </div>
         </div>
@@ -302,6 +303,10 @@
               <li>メールアドレス ＋ パスワード入力</li>
               <li>ロール自動判定（従業員 / 管理者）</li>
               <li>未ログイン時は全ページここへリダイレクト</li>
+              <li>認証失敗（パスワード不一致）→ エラーメッセージを表示して同画面に留まる</li>
+              <li>パスワード未設定アカウント → ログイン不可 → 「メールのリンクよりパスワードを設定してください」メッセージ表示</li>
+              <li>退職処理済みアカウント → ログイン不可 → エラーメッセージ表示</li>
+              <li>IP制限外からのアクセス → 403 エラーページへ</li>
             </ul>
           </div>
         </div>
@@ -329,6 +334,7 @@
               <li>メールアドレス入力 → リセットリンクをメール送信</li>
               <li>ワンタイムトークン（有効期限24時間・使用後無効化）</li>
               <li>新パスワード入力 → 設定完了後 /login へリダイレクト</li>
+              <li>無効・期限切れトークンの場合 → エラーページを表示（再度メール送信を促す）</li>
             </ul>
           </div>
         </div>
@@ -555,6 +561,7 @@
         <ul class="screen-desc">
           <li>有効従業員のみ表示（論理削除 del_flg=0）</li>
           <li>従業員番号・氏名・メール</li>
+          <li>編集ボタン → 従業員情報編集フォームへ遷移</li>
           <li>退職処理ボタン（= 論理削除）</li>
         </ul>
       </div>
@@ -572,6 +579,20 @@
               <li>氏名・メール・従業員番号を入力</li>
               <li>登録後、パスワード設定用リンクをメール自動送信</li>
               <li>管理者はパスワードを保持しない</li>
+            </ul>
+          </div>
+        </div>
+        <div style="flex:1;">
+          <div class="screen s-admin">
+            <div class="screen-title">従業員情報編集</div>
+            <div class="screen-route">
+              <span class="badge get">GET</span>/admin/users/{id}/edit<br>
+              <span class="badge put">PUT</span>/admin/users/{id}
+            </div>
+            <ul class="screen-desc">
+              <li>氏名・メール・従業員番号を編集</li>
+              <li>従業員自身による変更は不可（管理者専用）</li>
+              <li>更新後 → 従業員一覧へリダイレクト</li>
             </ul>
           </div>
         </div>
@@ -644,6 +665,8 @@
         <tr style="background:#fdf2f8"><td><span class="badge get">GET</span></td>   <td><code>/admin/users/create</code></td>                         <td>Admin\UserController@create</td>       <td>管理者</td>    <td>従業員登録フォーム</td></tr>
         <tr style="background:#fdf2f8"><td><span class="badge post">POST</span></td> <td><code>/admin/users</code></td>                                <td>Admin\UserController@store</td>        <td>管理者</td>    <td>従業員登録</td></tr>
         <tr style="background:#fdf2f8"><td><span class="badge put">PUT</span></td>   <td><code>/admin/users/{id}/deactivate</code></td>                <td>Admin\UserController@deactivate</td>   <td>管理者</td>    <td>退職処理（論理削除）</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge get">GET</span></td>   <td><code>/admin/users/{id}/edit</code></td>                      <td>Admin\UserController@edit</td>         <td>管理者</td>    <td>従業員情報編集フォーム</td></tr>
+        <tr style="background:#fdf2f8"><td><span class="badge put">PUT</span></td>   <td><code>/admin/users/{id}</code></td>                           <td>Admin\UserController@update</td>       <td>管理者</td>    <td>従業員情報更新</td></tr>
         <tr style="background:#fefce8"><td><span class="badge get">GET</span></td>   <td><code>/password/setup</code></td>                                <td>PasswordSetupController@show</td>      <td>未認証（IP制限外）</td><td>初回パスワード設定フォーム</td></tr>
         <tr style="background:#fefce8"><td><span class="badge post">POST</span></td> <td><code>/password/setup</code></td>                                <td>PasswordSetupController@store</td>     <td>未認証（IP制限外）</td><td>初回パスワード設定処理</td></tr>
         <tr style="background:#fefce8"><td><span class="badge get">GET</span></td>   <td><code>/password/reset</code></td>                                <td>PasswordResetController@showRequest</td><td>未認証（IP制限外）</td><td>パスワード再設定依頼フォーム</td></tr>
@@ -660,7 +683,9 @@
       ③ <strong>物理削除ルートは設けていません</strong>。del_flg による論理削除のみとし、CSV出力・過去勤怠データの整合性を保ちます。<br>
       ④ <strong>打刻系は全て POST</strong>（PRGパターン）とし、ブラウザバックによる二重打刻を防ぎます。リダイレクト先は操作によって異なり、<strong>出勤・退勤打刻の完了後は自動ログアウトして /login へ</strong>リダイレクト、休憩開始・終了の完了後は同画面（/attendance）への GET リダイレクトを行います。<br>
       ⑤ <strong>日をまたぐ勤務（深夜帯シフト）への対応</strong>：<code>clock_in</code> / <code>clock_out</code> は <code>datetime</code> 型で保持し、退勤が翌日になる場合は <code>clock_out</code> の日付部分を翌日に補正して記録します。勤務日の基準は<strong>出勤打刻日（JST）</strong>とし、月別集計・CSV 出力もこの基準で行います。日別詳細画面では翌日退勤の場合「翌日」ラベルを表示します。修正申請フォームでも退勤時刻が出勤時刻より早い入力を許容し、同様の翌日補正ロジックを適用します。<br>
-      ⑥ <strong>セッションタイムアウトによる自動ログアウト</strong>：一定時間（例：15分）操作がない場合、サーバ側でセッションを破棄し <code>/login</code> へリダイレクトします。Laravelのセッション設定（<code>session.lifetime</code>）で制御します。タイムアウト時はログイン画面に「セッションがタイムアウトしました」メッセージを表示します。
+      ⑥ <strong>セッションタイムアウトによる自動ログアウト</strong>：一定時間（例：15分）操作がない場合、サーバ側でセッションを破棄し <code>/login</code> へリダイレクトします。Laravelのセッション設定（<code>session.lifetime</code>）で制御します。タイムアウト時はログイン画面に「セッションがタイムアウトしました」メッセージを表示します。<br>
+      ⑦ <strong>CSV出力の出力項目仕様</strong>：カラム順は「従業員番号・氏名・日付・出勤時刻・退勤時刻・休憩時間合計・実働時間」。休憩時間合計は当日の全分割休憩を合算した値を出力。従業員番号は給与計算ソフトの従業員コードとの紐づけキーとして使用。出力対象月は出勤打刻日（JST）基準で抽出します。<br>
+      ⑧ <strong>エラー系遷移まとめ</strong>：① IP制限外アクセス → 403エラーページ表示　② 無効・期限切れトークン（パスワード設定・再設定）→ エラーページを表示　③ 認証失敗（パスワード不一致）→ ログイン画面にエラーメッセージを表示して留まる　④ パスワード未設定アカウントでのログイン試行 → エラーメッセージ表示（メールリンクからの設定を促す）　⑤ 退職処理済みアカウントでのログイン試行 → エラーメッセージ表示してログイン不可。
     </div>
   </div>
 
