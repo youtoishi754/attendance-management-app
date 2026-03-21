@@ -40,8 +40,8 @@
     <mxCell id="USR_R5" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_USR">
       <mxGeometry y="150" width="260" height="30" as="geometry" />
     </mxCell>
-    <mxCell id="USR_R5L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R5"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
-    <mxCell id="USR_R5R" value="パスワード（ハッシュ） : 文字列(255)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R5"><mxGeometry x="50" width="210" height="30" as="geometry" /></mxCell>
+    <mxCell id="USR_R5L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R5"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="USR_R5R" value="パスワード（ハッシュ） : 文字列(255)（NULL可）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_R5"><mxGeometry x="50" width="210" height="30" as="geometry" /></mxCell>
     <!-- role -->
     <mxCell id="USR_R6" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_USR">
       <mxGeometry y="180" width="260" height="30" as="geometry" />
@@ -265,6 +265,72 @@
     <!-- rel: correction_requests 1-to-N correction_breaks -->
     <mxCell id="R_COR_CBRK" value="" style="edgeStyle=none;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="T_COR" target="T_CBRK">
       <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ===== password_setup_tokens ===== -->
+    <mxCell id="T_PST" value="パスワード設定トークン" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+      <mxGeometry x="60" y="470" width="280" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="PST_R1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="T_PST">
+      <mxGeometry y="30" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="PST_R1L" value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="PST_R1"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_R1R" value="メールアドレス : 文字列(255)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PST_R1"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_R2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_PST">
+      <mxGeometry y="60" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="PST_R2L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PST_R2"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_R2R" value="トークン : 文字列(255)（ハッシュ済み）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PST_R2"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_R3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_PST">
+      <mxGeometry y="90" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="PST_R3L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PST_R3"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_R3R" value="作成日時 : 日時（有効期限24時間）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PST_R3"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+
+    <!-- ===== password_reset_tokens ===== -->
+    <mxCell id="T_PRT" value="パスワードリセットトークン" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+      <mxGeometry x="60" y="650" width="280" height="120" as="geometry" />
+    </mxCell>
+    <mxCell id="PRT_R1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="T_PRT">
+      <mxGeometry y="30" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="PRT_R1L" value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="PRT_R1"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_R1R" value="メールアドレス : 文字列(255)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PRT_R1"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_R2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_PRT">
+      <mxGeometry y="60" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="PRT_R2L" value="NN" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PRT_R2"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_R2R" value="トークン : 文字列(255)（ハッシュ済み）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PRT_R2"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_R3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_PRT">
+      <mxGeometry y="90" width="280" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="PRT_R3L" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PRT_R3"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_R3R" value="作成日時 : 日時（NULL可・有効期限24時間）" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PRT_R3"><mxGeometry x="50" width="230" height="30" as="geometry" /></mxCell>
+
+    <!-- rel: users 1-to-0..1 password_setup_tokens (email) -->
+    <mxCell id="R_USR_PST" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToOne;startArrow=ERmandOne;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="USR_R4" target="PST_R1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="40" y="295" />
+          <mxPoint x="40" y="515" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="R_USR_PST_L" value="初回PW設定 (1 : 0..1)" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="R_USR_PST">
+      <mxGeometry x="0" y="-1" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+    </mxCell>
+
+    <!-- rel: users 1-to-0..1 password_reset_tokens (email) -->
+    <mxCell id="R_USR_PRT" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToOne;startArrow=ERmandOne;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="USR_R4" target="PRT_R1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="30" y="295" />
+          <mxPoint x="30" y="695" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="R_USR_PRT_L" value="PW再設定 (1 : 0..1)" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="R_USR_PRT">
+      <mxGeometry x="0" y="-1" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
     </mxCell>
 
   </root>

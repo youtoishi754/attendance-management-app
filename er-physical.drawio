@@ -30,7 +30,7 @@
 
     <mxCell id="USR_pw"          value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_USR"><mxGeometry y="150" width="340" height="30" as="geometry" /></mxCell>
     <mxCell id="USR_pw_L"        value=""   style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_pw"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
-    <mxCell id="USR_pw_R"        value="password  VARCHAR(255) NOT NULL" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;fontSize=11;" vertex="1" parent="USR_pw"><mxGeometry x="50" width="290" height="30" as="geometry" /></mxCell>
+    <mxCell id="USR_pw_R"        value="password  VARCHAR(255) NULL" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;fontSize=11;" vertex="1" parent="USR_pw"><mxGeometry x="50" width="290" height="30" as="geometry" /></mxCell>
 
     <mxCell id="USR_role"        value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_USR"><mxGeometry y="180" width="340" height="30" as="geometry" /></mxCell>
     <mxCell id="USR_role_L"      value=""   style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="USR_role"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
@@ -260,6 +260,66 @@
     <!-- rel: correction_requests 1-to-N correction_breaks -->
     <mxCell id="R_COR_CBRK" value="" style="edgeStyle=none;endArrow=ERzeroToMany;startArrow=ERmandOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="T_COR" target="T_CBRK">
       <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ===== password_setup_tokens ===== -->
+    <mxCell id="T_PST" value="password_setup_tokens" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+      <mxGeometry x="40" y="480" width="360" height="150" as="geometry" />
+    </mxCell>
+    <mxCell id="PST_email"      value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="T_PST"><mxGeometry y="30"  width="360" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_email_L"    value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="PST_email"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_email_R"    value="email  VARCHAR(255) NOT NULL" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;fontSize=11;" vertex="1" parent="PST_email"><mxGeometry x="50" width="310" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_token"      value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_PST"><mxGeometry y="60"  width="360" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_token_L"    value=""   style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PST_token"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_token_R"    value="token  VARCHAR(255) NOT NULL  (ハッシュ済み)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;fontSize=11;" vertex="1" parent="PST_token"><mxGeometry x="50" width="310" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_cat"        value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_PST"><mxGeometry y="90"  width="360" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_cat_L"      value=""   style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PST_cat"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_cat_R"      value="created_at  DATETIME NOT NULL  (ワンタイム・有効期限 24h・使用後削除)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;fontSize=11;" vertex="1" parent="PST_cat"><mxGeometry x="50" width="310" height="30" as="geometry" /></mxCell>
+    <mxCell id="PST_NOTE" value="INDEX: PRIMARY KEY(email)  |使用後はレコード削除（ワンタイム）" style="text;html=1;strokeColor=none;fillColor=#f5f5f5;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="40" y="635" width="360" height="20" as="geometry" />
+    </mxCell>
+
+    <!-- ===== password_reset_tokens ===== -->
+    <mxCell id="T_PRT" value="password_reset_tokens" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+      <mxGeometry x="40" y="670" width="360" height="150" as="geometry" />
+    </mxCell>
+    <mxCell id="PRT_email"      value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="T_PRT"><mxGeometry y="30"  width="360" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_email_L"    value="PK" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;fontStyle=1;overflow=hidden;" vertex="1" parent="PRT_email"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_email_R"    value="email  VARCHAR(255) NOT NULL" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;fontSize=11;" vertex="1" parent="PRT_email"><mxGeometry x="50" width="310" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_token"      value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_PRT"><mxGeometry y="60"  width="360" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_token_L"    value=""   style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PRT_token"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_token_R"    value="token  VARCHAR(255) NOT NULL  (ハッシュ済み)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;fontSize=11;" vertex="1" parent="PRT_token"><mxGeometry x="50" width="310" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_cat"        value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="T_PRT"><mxGeometry y="90"  width="360" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_cat_L"      value=""   style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;" vertex="1" parent="PRT_cat"><mxGeometry width="50" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_cat_R"      value="created_at  TIMESTAMP NULL  (ワンタイム・有効期限 24h・使用後削除） Laravelデフォルト実装" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;overflow=hidden;fontSize=11;" vertex="1" parent="PRT_cat"><mxGeometry x="50" width="310" height="30" as="geometry" /></mxCell>
+    <mxCell id="PRT_NOTE" value="INDEX: PRIMARY KEY(email)  |使用後はレコード削除（ワンタイム）| Laravel標準テーブル" style="text;html=1;strokeColor=none;fillColor=#f5f5f5;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="40" y="825" width="360" height="20" as="geometry" />
+    </mxCell>
+
+    <!-- rel: users → password_setup_tokens (email) -->
+    <mxCell id="R_USR_PST" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToOne;startArrow=ERmandOne;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="USR_email" target="PST_email">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="20" y="215" />
+          <mxPoint x="20" y="525" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="R_USR_PST_L" value="初回PW設定 (1 : 0..1)" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="R_USR_PST">
+      <mxGeometry x="0" y="-1" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+    </mxCell>
+
+    <!-- rel: users → password_reset_tokens (email) -->
+    <mxCell id="R_USR_PRT" value="" style="edgeStyle=entityRelationEdgeStyle;endArrow=ERzeroToOne;startArrow=ERmandOne;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="USR_email" target="PRT_email">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="10" y="215" />
+          <mxPoint x="10" y="715" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="R_USR_PRT_L" value="PW再設定 (1 : 0..1)" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="R_USR_PRT">
+      <mxGeometry x="0" y="-1" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
     </mxCell>
 
   </root>
