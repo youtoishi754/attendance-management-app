@@ -361,44 +361,37 @@
               font-family="'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif">POST /login 認証成功 → ロール判定してリダイレクト</text>
       </svg>
 
-      <!-- 下段：2つのダッシュボード（SVGの x=240/720 に合わせ flex で左右均等配置） -->
-      <div style="display:flex;gap:16px;">
-        <div style="flex:1;text-align:center;">
-          <div style="font-size:0.72rem;font-weight:700;color:#1d4ed8;background:#eff6ff;display:inline-block;padding:2px 12px;border-radius:4px;margin-bottom:6px;">従業員</div>
-          <div class="screen s-employee" style="text-align:left;">
-            <div class="screen-title">出退勤ダッシュボード</div>
-            <div class="screen-route"><span class="badge get">GET</span>/attendance</div>
-            <ul class="screen-desc">
-              <li>打刻ボタン（出勤 / 退勤 / 休憩）</li>
-              <li>今日の打刻状況</li>
-            </ul>
+      <!-- 下段：ロール別リダイレクト先の簡潔説明 -->
+      <div style="display:flex;gap:16px;margin-top:24px;">
+        <div style="flex:1;padding:16px;background:#eff6ff;border-radius:8px;border:1.5px solid #93c5fd;text-align:center;">
+          <div style="font-size:0.75rem;font-weight:600;color:#1d4ed8;margin-bottom:8px;">従業員</div>
+          <div style="font-size:0.78rem;color:#444;line-height:1.6;">
+            打刻ダッシュボード<br><code style="font-size:0.7rem;">GET /attendance</code><br>
+            <span style="opacity:0.8;">打刻・勤怠確認・修正申請</span>
           </div>
         </div>
-        <div style="flex:1;text-align:center;">
-          <div style="font-size:0.72rem;font-weight:700;color:#9d174d;background:#fdf2f8;display:inline-block;padding:2px 12px;border-radius:4px;margin-bottom:6px;">管理者</div>
-          <div class="screen s-admin" style="text-align:left;">
-            <div class="screen-title">管理者ダッシュボード</div>
-            <div class="screen-route"><span class="badge get">GET</span>/admin/dashboard</div>
-            <ul class="screen-desc">
-              <li>承認待ち申請件数</li>
-              <li>今月の集計サマリ</li>
-            </ul>
+        <div style="flex:1;padding:16px;background:#fdf2f8;border-radius:8px;border:1.5px solid #f9a8d4;text-align:center;">
+          <div style="font-size:0.75rem;font-weight:600;color:#9d174d;margin-bottom:8px;">管理者</div>
+          <div style="font-size:0.78rem;color:#444;line-height:1.6;">
+            勤怠管理ダッシュボード<br><code style="font-size:0.7rem;">GET /admin/dashboard</code><br>
+            <span style="opacity:0.8;">全体確認・申請承認・従業員管理</span>
           </div>
         </div>
       </div>
+      <div style="font-size:0.7rem;color:#666;margin-top:12px;text-align:center;">※ 詳細な画面遷移は、以降の「従業員フロー」「管理者フロー」セクションを参照</div>
     </div>
   </div>
 
-  <!-- ════════════════════════ 従業員フロー ════════════════════════ -->
+  <!-- ════════════════════════ 従業員フロー（アルバイト） ════════════════════════ -->
   <div class="section-employee">
-    <span class="section-title">従業員フロー</span>
+    <span class="section-title">従業員フロー（アルバイト）</span>
 
     <!-- 打刻 -->
     <div class="group">
       <div class="group-label">① 打刻</div>
 
       <div class="screen s-employee">
-        <div class="screen-title">出退勤ダッシュボード</div>
+        <div class="screen-title">打刻ダッシュボード</div>
         <div class="screen-route"><span class="badge get">GET</span>/attendance</div>
         <ul class="screen-desc">
           <li>現在の打刻状態を大きく表示（スマホ最優先）</li>
@@ -489,7 +482,7 @@
       <div class="group-label">① 全体勤怠確認</div>
 
       <div class="screen s-admin">
-        <div class="screen-title">管理者ダッシュボード</div>
+        <div class="screen-title">勤怠管理ダッシュボード</div>
         <div class="screen-route"><span class="badge get">GET</span>/admin/dashboard</div>
         <ul class="screen-desc">
           <li>承認待ち件数バッジ（修正申請）</li>
